@@ -31,7 +31,7 @@ Operação de depósito bancário.
 #### /PATCH/{CPF}/saque
 Operação de saque bancário.
 
-#### /PATCH/{CPF}/pagamento-de-contas
+#### /PATCH/{CPF}/pagamento
 Operação de pagamentos de contas.
 
 #### /PATCH/{CPF}/recuperar-senha
