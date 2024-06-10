@@ -17,6 +17,7 @@ public class Cliente implements InterfaceCliente {
         this.endereco = endereco;
         this.rendaMensal = rendaMensal;
         this.senha = senha;
+        System.out.println("Cliente criado com sucesso!");
     }
 
     @Override
@@ -87,5 +88,52 @@ public class Cliente implements InterfaceCliente {
     @Override
     public void setSenha(String senha) {
         this.senha = senha;
+    }
+
+    public void recuperarSenha(String senha){
+        this.senha = senha;
+    }
+
+    /*
+    public void atualizarCadastro(String email, String telefone, String endereco, double rendaMensal, String senha) {
+        setEmail(email);
+        setTelefone(telefone);
+        setEndereco(endereco);
+        setRendaMensal(rendaMensal);
+        recuperarSenha(senha);
+        System.out.println("Cadastro atualizado com sucesso!");
+    }
+    */
+
+    public void atualizarCadastro(){
+        System.out.println("Cadastro atualizado");
+    }
+
+    public void verSaldo(){
+        System.out.println("Ver saldo");
+    }
+
+    public void verExtrato(){
+        System.out.println("Ver extrato");
+    }
+
+    public void realizarTransferencia(){
+        System.out.println("Fazendo transferência");
+    }
+
+    public void realizarDeposito(){
+        System.out.println("Fazendo depósito");
+    }
+
+    public void realizarSaque(){
+        System.out.println("Fazendo saque");
+    }
+
+    public void pagarConta(){
+        System.out.println("Pagando conta");
+    }
+
+    public void encerrarConta(){
+        System.out.println("Encerrando conta");
     }
 }
