@@ -1,6 +1,6 @@
 package com.ficticio.bancoficticio.controller;
 
-import com.ficticio.bancoficticio.config.Cliente;
+import com.ficticio.bancoficticio.utils.Cliente;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 

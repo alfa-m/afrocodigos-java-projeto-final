@@ -1,4 +1,4 @@
-package com.ficticio.bancoficticio.config;
+package com.ficticio.bancoficticio.utils;
 
 public interface InterfaceCliente {
     String getCpf();

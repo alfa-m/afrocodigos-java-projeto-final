@@ -1,4 +1,4 @@
-package com.ficticio.bancoficticio.config;
+package com.ficticio.bancoficticio.utils;
 
 public class Cliente implements InterfaceCliente {
     private String cpf;
