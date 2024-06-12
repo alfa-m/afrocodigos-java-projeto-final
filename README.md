@@ -4,39 +4,45 @@
 
 ## Rotas da API
 ### Rotas GET
-#### /GET/login/{CPF}
+#### /GET/login/{id}
 Operação de login.
 
-#### /GET/{CPF}/saldo
+#### /GET/{id}/saldo
 Operação de obtenção de saldo.
 
-#### /GET/{CPF}/extrato
+#### /GET/{id}/extrato
 Operação de obtenção de extrato.
 
 ### Rotas POST
 #### /POST/cadastrar
 Operação de cadastro de novo cliente.
 
+#### /POST/{id}/pix/cadastrar
+Operação de cadastro de nova chave pix.
+
 ### Rotas PUT
-#### /PUT/{CPF}/atualizar
+#### /PUT/{id}/atualizar
 Operação de atualização dos dados cadastrais.
 
 ### Rotas PATCH
-#### /PATCH/{CPF}/transferir/{outro-CPF}
+#### /PATCH/{idOrigem}/transferencia/{idDestino}
 Operação de transferência entre contas bancárias.
 
-#### /PATCH/{CPF}/depositar
+#### /PATCH/{id}/deposito
 Operação de depósito bancário.
 
-#### /PATCH/{CPF}/saque
+#### /PATCH/{id}/saque
 Operação de saque bancário.
 
-#### /PATCH/{CPF}/pagamento
+#### /PATCH/{id}/pagamento
 Operação de pagamentos de contas.
 
-#### /PATCH/{CPF}/recuperar-senha
-Operação de recuperação de senha.
+#### /PATCH/{id}/redefinir-senha
+Operação de redefinir de senha.
 
 ### Rotas DELETE
-#### /DELETE/{CPF}/deletar
+#### /DELETE/{id}/deletar
 Operação de encerrar a conta bancária.
+
+#### /DELETE/{id}/pix/deletar
+Operação de apagar chave pix.
