@@ -13,7 +13,6 @@ import java.util.Optional;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/bancoficticio")
 public class ClienteController {
     private final ClienteRepository clienteRepository;
 
