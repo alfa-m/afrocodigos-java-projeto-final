@@ -26,7 +26,7 @@ public class ClienteController {
 
         if(clienteProcurado.isPresent()) {
             Cliente clienteEncontrado = clienteProcurado.get();
-            String saldo = clienteEncontrado.getRendaMensal();
+            String saldo = clienteEncontrado.getSaldo();
             return ResponseEntity.ok("Saldo do cliente " + clienteEncontrado.getNome() + ": " + saldo);
         }
 

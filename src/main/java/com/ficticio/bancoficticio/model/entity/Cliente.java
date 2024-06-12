@@ -15,109 +15,116 @@ public class Cliente {
     private UUID id;
     private String cpf;
     private String nome;
-    private String email;
+    private String dataNascimento;
     private String telefone;
     private String endereco;
     private String rendaMensal = "0";
+    private String email;
     private String senha;
+    private String saldo = "0";
+    private boolean status = false;
 
     protected Cliente(){}
 
-    public Cliente(String cpf, String nome, String email, String telefone, String endereco, String rendaMensal, String senha) {
+    public Cliente(String cpf, String nome, String dataNascimento, String telefone, String endereco, String rendaMensal, String email, String senha) {
         this.cpf = cpf;
         this.nome = nome;
-        this.email = email;
+        this.dataNascimento = dataNascimento;
         this.telefone = telefone;
         this.endereco = endereco;
         this.rendaMensal = rendaMensal;
+        this.email = email;
         this.senha = senha;
         System.out.println("Cliente criado com sucesso!");
     }
 
-    @Override
+    public UUID getId() {
+        return id;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
+
     public String getCpf() {
         return cpf;
     }
 
-    @Override
     public void setCpf(String cpf) {
         this.cpf = cpf;
     }
 
-    @Override
     public String getNome() {
         return nome;
     }
 
-    @Override
     public void setNome(String nome) {
         this.nome = nome;
     }
 
-    @Override
-    public String getEmail() {
-        return email;
+    public String getDataNascimento() {
+        return dataNascimento;
     }
 
-    @Override
-    public void setEmail(String email) {
-        this.email = email;
+    public void setDataNascimento(String dataNascimento) {
+        this.dataNascimento = dataNascimento;
     }
 
-    @Override
     public String getTelefone() {
         return telefone;
     }
 
-    @Override
     public void setTelefone(String telefone) {
         this.telefone = telefone;
     }
 
-    @Override
     public String getEndereco() {
         return endereco;
     }
 
-    @Override
     public void setEndereco(String endereco) {
         this.endereco = endereco;
     }
 
-    @Override
     public String getRendaMensal() {
         return rendaMensal;
     }
 
-    @Override
     public void setRendaMensal(String rendaMensal) {
         this.rendaMensal = rendaMensal;
     }
 
-    @Override
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     public String getSenha() {
         return senha;
     }
 
-    @Override
     public void setSenha(String senha) {
         this.senha = senha;
     }
 
-    public void recuperarSenha(String senha){
-        this.senha = senha;
+    public String getSaldo() {
+        return saldo;
     }
 
-    /*
-    public void atualizarCadastro(String email, String telefone, String endereco, double rendaMensal, String senha) {
-        setEmail(email);
-        setTelefone(telefone);
-        setEndereco(endereco);
-        setRendaMensal(rendaMensal);
-        recuperarSenha(senha);
-        System.out.println("Cadastro atualizado com sucesso!");
+    public void setSaldo(String saldo) {
+        this.saldo = saldo;
     }
-    */
+
+    public boolean isStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
+    }
 
     public void atualizarCadastro(){
         System.out.println("Cadastro atualizado");
