@@ -1,15 +1,30 @@
-package com.ficticio.bancoficticio.utils;
+package com.ficticio.bancoficticio.model.entity;
 
+import com.ficticio.bancoficticio.utils.InterfaceCliente;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import org.hibernate.annotations.UuidGenerator;
+
+import java.util.UUID;
+
+@Entity
+@Table(name = "cliente")
 public class Cliente implements InterfaceCliente {
+    @Id
+    @UuidGenerator
+    private UUID id;
     private String cpf;
     private String nome;
     private String email;
     private String telefone;
     private String endereco;
-    private double rendaMensal = 0;
+    private String rendaMensal = "0";
     private String senha;
 
-    public Cliente(String cpf, String nome, String email, String telefone, String endereco, double rendaMensal, String senha) {
+    protected Cliente(){}
+
+    public Cliente(String cpf, String nome, String email, String telefone, String endereco, String rendaMensal, String senha) {
         this.cpf = cpf;
         this.nome = nome;
         this.email = email;
@@ -71,12 +86,12 @@ public class Cliente implements InterfaceCliente {
     }
 
     @Override
-    public double getRendaMensal() {
+    public String getRendaMensal() {
         return rendaMensal;
     }
 
     @Override
-    public void setRendaMensal(double rendaMensal) {
+    public void setRendaMensal(String rendaMensal) {
         this.rendaMensal = rendaMensal;
     }
 
