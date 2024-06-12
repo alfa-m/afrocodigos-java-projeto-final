@@ -11,8 +11,8 @@ public interface InterfaceCliente {
     void setTelefone(String telefone);
     String getEndereco();
     void setEndereco(String endereco);
-    double getRendaMensal();
-    void setRendaMensal(double rendaMensal);
+    String getRendaMensal();
+    void setRendaMensal(String rendaMensal);
     String getSenha();
     void setSenha(String senha);
 }
