@@ -1,55 +1,36 @@
 package com.ficticio.bancoficticio.controller;
 
-import com.ficticio.bancoficticio.utils.Cliente;
+import com.ficticio.bancoficticio.model.entity.Cliente;
+import com.ficticio.bancoficticio.repository.ClienteRepository;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Optional;
+import java.util.UUID;
+
 @RestController
+@RequestMapping("/bancoficticio")
 public class ClienteController {
-    Cliente cliente1 = new Cliente("123.456.789-00", "Cliente 1", "cliente1@email.com", "1234-5678", "Endereço do cliente, numero", 1800.00, "senha123");
+    private final ClienteRepository clienteRepository;
 
-    @GetMapping("/saldo")
-    public void pegaSaldo() {
-        cliente1.verSaldo();
+    public ClienteController(ClienteRepository clienteRepository) {
+        this.clienteRepository = clienteRepository;
     }
 
-    @GetMapping("/extrato")
-    public void pegaExtrato() {
-        cliente1.verExtrato();
-    }
+    @GetMapping("/{id}/saldo")
+    public ResponseEntity<String> pegaSaldo(@PathVariable UUID id) {
+        Optional<Cliente> clienteProcurado = clienteRepository.findById(id);
 
-    @GetMapping("/cadastrar")
-    public void fazCadastro() {
-        Cliente clienteCadastrado = new Cliente("123.456.789-01", "Cliente 2", "cliente2@email.com", "2345-6789", "Endereço do cliente2, numero2", 1800.00, "senha234");
-    }
+        if(clienteProcurado.isPresent()) {
+            Cliente clienteEncontrado = clienteProcurado.get();
+            String saldo = clienteEncontrado.getRendaMensal();
+            return ResponseEntity.ok("Saldo do cliente " + clienteEncontrado.getNome() + ": " + saldo);
+        }
 
-    @GetMapping("/deletar")
-    public void deletaCadastro() {
-        cliente1.encerrarConta();
-    }
-
-    @GetMapping("/atualizar")
-    public void atualizaCadastro() {
-        cliente1.atualizarCadastro();
-    }
-
-    @GetMapping("/transferir")
-    public void fazTransferencia() {
-        cliente1.realizarTransferencia();
-    }
-
-    @GetMapping("/depositar")
-    public void fazDeposito() {
-        cliente1.realizarDeposito();
-    }
-
-    @GetMapping("/saque")
-    public void fazSaque() {
-        cliente1.realizarSaque();
-    }
-
-    @GetMapping("/pagamento")
-    public void fazPagamento() {
-        cliente1.pagarConta();
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 }
