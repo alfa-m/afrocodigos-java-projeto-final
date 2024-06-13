@@ -1,8 +1,6 @@
 package com.ficticio.bancoficticio.model.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import org.hibernate.annotations.UuidGenerator;
 
 import java.util.UUID;
@@ -21,10 +19,12 @@ public class Cliente {
     private String rendaMensal = "0";
     private String email;
     private String senha;
-    private String saldo = "0";
-    private String pix = "";
-    private String conta;
     private boolean logado = false;
+    private String conta;
+    private String saldo = "0";
+    private String limite;
+    private boolean chequeEspecial;
+    private String pix = "";
     private int saquesFeitos = 0;
 
     protected Cliente(){}
@@ -114,20 +114,12 @@ public class Cliente {
         this.senha = senha;
     }
 
-    public String getSaldo() {
-        return saldo;
+    public boolean isLogado() {
+        return logado;
     }
 
-    public void setSaldo(String saldo) {
-        this.saldo = saldo;
-    }
-
-    public String getPix() {
-        return pix;
-    }
-
-    public void setPix(String pix) {
-        this.pix = pix;
+    public void setLogado(boolean logado) {
+        this.logado = logado;
     }
 
     public String getConta() {
@@ -138,12 +130,36 @@ public class Cliente {
         this.conta = conta;
     }
 
-    public boolean isLogado() {
-        return logado;
+    public String getSaldo() {
+        return saldo;
     }
 
-    public void setLogado(boolean logado) {
-        this.logado = logado;
+    public void setSaldo(String saldo) {
+        this.saldo = saldo;
+    }
+
+    public String getLimite() {
+        return limite;
+    }
+
+    public void setLimite(String limite) {
+        this.limite = limite;
+    }
+
+    public boolean isChequeEspecial() {
+        return chequeEspecial;
+    }
+
+    public void setChequeEspecial(boolean chequeEspecial) {
+        this.chequeEspecial = chequeEspecial;
+    }
+
+    public String getPix() {
+        return pix;
+    }
+
+    public void setPix(String pix) {
+        this.pix = pix;
     }
 
     public int getSaquesFeitos() {
@@ -181,10 +197,13 @@ public class Cliente {
     public void escolheConta(String rendaMensal){
         if (Double.parseDouble(rendaMensal) >= 2900.00){
             setConta("contaCorrente");
+            setChequeEspecial(true);
         }
         else {
             setConta("contaPagamento");
+            setChequeEspecial(false);
         }
+        atualizarLimite();
     }
 
     public void realizarDeposito(String saldoAtualizado){
@@ -199,4 +218,12 @@ public class Cliente {
         setSaldo(saldoAtualizado);
     }
 
+    public void atualizarLimite(){
+        if (getConta().equals("contaCorrente")){
+            setLimite(String.valueOf(Double.parseDouble(getSaldo()) + (0.1 * Double.parseDouble(getRendaMensal()))));
+        }
+        else {
+            setLimite(getSaldo());
+        }
+    }
 }

@@ -1,7 +1,9 @@
 package com.ficticio.bancoficticio.controller;
 
 import com.ficticio.bancoficticio.model.entity.Cliente;
+import com.ficticio.bancoficticio.model.entity.Transacao;
 import com.ficticio.bancoficticio.repository.ClienteRepository;
+import com.ficticio.bancoficticio.repository.TransacaoRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,9 +15,11 @@ import java.util.UUID;
 @RestController
 public class ClienteController {
     private final ClienteRepository clienteRepository;
+    private final TransacaoRepository transacaoRepository;
 
-    public ClienteController(ClienteRepository clienteRepository) {
+    public ClienteController(ClienteRepository clienteRepository, TransacaoRepository transacaoRepository) {
         this.clienteRepository = clienteRepository;
+        this.transacaoRepository = transacaoRepository;
     }
 
     @GetMapping("/{id}/login")
@@ -149,14 +153,21 @@ public class ClienteController {
             Cliente clienteEncontradoDestino = clienteProcuradoDestino.get();
 
             if (clienteEncontradoOrigem.isLogado()){
-                String saldoAtualizadoOrigem = String.valueOf(Double.parseDouble(clienteEncontradoOrigem.verSaldo()) - Double.parseDouble(transferencia));
-                clienteEncontradoOrigem.realizarSaque(saldoAtualizadoOrigem);
+                if (Double.parseDouble(clienteEncontradoOrigem.getLimite()) >= Double.parseDouble(transferencia)){
+                    String saldoAtualizadoOrigem = String.valueOf(Double.parseDouble(clienteEncontradoOrigem.verSaldo()) - Double.parseDouble(transferencia));
+                    clienteEncontradoOrigem.realizarSaque(saldoAtualizadoOrigem);
+                    clienteEncontradoOrigem.atualizarLimite();
 
-                String saldoAtualizadoDestino = String.valueOf(Double.parseDouble(clienteEncontradoDestino.verSaldo()) + Double.parseDouble(transferencia));
-                clienteEncontradoDestino.realizarDeposito(saldoAtualizadoDestino);
-                clienteRepository.save(clienteEncontradoDestino);
+                    String saldoAtualizadoDestino = String.valueOf(Double.parseDouble(clienteEncontradoDestino.verSaldo()) + Double.parseDouble(transferencia));
+                    clienteEncontradoDestino.realizarDeposito(saldoAtualizadoDestino);
+                    clienteEncontradoDestino.atualizarLimite();
+                    clienteRepository.save(clienteEncontradoDestino);
 
-                return ResponseEntity.ok(clienteEncontradoOrigem);
+                    Transacao transacaoTransferencia = new Transacao(idOrigem, "transferencia", "13/06/2024", transferencia);
+                    transacaoRepository.save(transacaoTransferencia);
+                    return ResponseEntity.ok(clienteEncontradoOrigem);
+                }
+                return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
             }
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
@@ -174,6 +185,9 @@ public class ClienteController {
             if (clienteEncontrado.isLogado()){
                 String saldoAtualizado = String.valueOf(Double.parseDouble(clienteEncontrado.verSaldo()) + Double.parseDouble(deposito));
                 clienteEncontrado.realizarDeposito(saldoAtualizado);
+                clienteEncontrado.atualizarLimite();
+                Transacao transacaoDeposito = new Transacao(id, "deposito", "13/06/2024", deposito);
+                transacaoRepository.save(transacaoDeposito);
                 return ResponseEntity.ok(clienteRepository.save(clienteEncontrado));
             }
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
@@ -189,10 +203,16 @@ public class ClienteController {
         if(clienteProcurado.isPresent()) {
             String saque = bodyRequest.get("saldo");
             Cliente clienteEncontrado = clienteProcurado.get();
-            if (clienteEncontrado.isLogado()){
-                String saldoAtualizado = String.valueOf(Double.parseDouble(clienteEncontrado.verSaldo()) - Double.parseDouble(saque));
-                clienteEncontrado.realizarSaque(saldoAtualizado);
-                return ResponseEntity.ok(clienteRepository.save(clienteEncontrado));
+            if (clienteEncontrado.isLogado()) {
+                if (Double.parseDouble(clienteEncontrado.getLimite()) >= Double.parseDouble(saque)) {
+                    String saldoAtualizado = String.valueOf(Double.parseDouble(clienteEncontrado.verSaldo()) - Double.parseDouble(saque));
+                    clienteEncontrado.realizarSaque(saldoAtualizado);
+                    clienteEncontrado.atualizarLimite();
+                    Transacao transacaoSaque = new Transacao(id, "saque", "13/06/2024", saque);
+                    transacaoRepository.save(transacaoSaque);
+                    return ResponseEntity.ok(clienteRepository.save(clienteEncontrado));
+                }
+                return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
             }
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
@@ -207,10 +227,16 @@ public class ClienteController {
         if(clienteProcurado.isPresent()) {
             String pagamento = bodyRequest.get("saldo");
             Cliente clienteEncontrado = clienteProcurado.get();
-            if (clienteEncontrado.isLogado()){
+            if (clienteEncontrado.isLogado()) {
+                if (Double.parseDouble(clienteEncontrado.getLimite()) >= Double.parseDouble(pagamento)) {
                 String saldoAtualizado = String.valueOf(Double.parseDouble(clienteEncontrado.verSaldo()) - Double.parseDouble(pagamento));
                 clienteEncontrado.pagarConta(saldoAtualizado);
+                clienteEncontrado.atualizarLimite();
+                Transacao transacaoPagamento = new Transacao(id, "pagamento", "13/06/2024", pagamento);
+                transacaoRepository.save(transacaoPagamento);
                 return ResponseEntity.ok(clienteRepository.save(clienteEncontrado));
+                }
+                return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
             }
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
