@@ -163,7 +163,7 @@ public class ClienteController {
                     clienteEncontradoDestino.atualizarLimite();
                     clienteRepository.save(clienteEncontradoDestino);
 
-                    Transacao transacaoTransferencia = new Transacao(idOrigem, "transferencia", "13/06/2024", transferencia);
+                    Transacao transacaoTransferencia = new Transacao(idOrigem, "transferencia", transferencia, idDestino);
                     transacaoRepository.save(transacaoTransferencia);
                     return ResponseEntity.ok(clienteEncontradoOrigem);
                 }
@@ -186,7 +186,7 @@ public class ClienteController {
                 String saldoAtualizado = String.valueOf(Double.parseDouble(clienteEncontrado.verSaldo()) + Double.parseDouble(deposito));
                 clienteEncontrado.realizarDeposito(saldoAtualizado);
                 clienteEncontrado.atualizarLimite();
-                Transacao transacaoDeposito = new Transacao(id, "deposito", "13/06/2024", deposito);
+                Transacao transacaoDeposito = new Transacao(id, "deposito", deposito);
                 transacaoRepository.save(transacaoDeposito);
                 return ResponseEntity.ok(clienteRepository.save(clienteEncontrado));
             }
@@ -208,7 +208,7 @@ public class ClienteController {
                     String saldoAtualizado = String.valueOf(Double.parseDouble(clienteEncontrado.verSaldo()) - Double.parseDouble(saque));
                     clienteEncontrado.realizarSaque(saldoAtualizado);
                     clienteEncontrado.atualizarLimite();
-                    Transacao transacaoSaque = new Transacao(id, "saque", "13/06/2024", saque);
+                    Transacao transacaoSaque = new Transacao(id, "saque", saque);
                     transacaoRepository.save(transacaoSaque);
                     return ResponseEntity.ok(clienteRepository.save(clienteEncontrado));
                 }
@@ -232,7 +232,7 @@ public class ClienteController {
                 String saldoAtualizado = String.valueOf(Double.parseDouble(clienteEncontrado.verSaldo()) - Double.parseDouble(pagamento));
                 clienteEncontrado.pagarConta(saldoAtualizado);
                 clienteEncontrado.atualizarLimite();
-                Transacao transacaoPagamento = new Transacao(id, "pagamento", "13/06/2024", pagamento);
+                Transacao transacaoPagamento = new Transacao(id, "pagamento", pagamento);
                 transacaoRepository.save(transacaoPagamento);
                 return ResponseEntity.ok(clienteRepository.save(clienteEncontrado));
                 }

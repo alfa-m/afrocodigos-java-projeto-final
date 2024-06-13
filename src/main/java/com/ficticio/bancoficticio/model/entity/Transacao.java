@@ -1,11 +1,10 @@
 package com.ficticio.bancoficticio.model.entity;
 
-import jakarta.persistence.Embedded;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UuidGenerator;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
@@ -16,16 +15,25 @@ public class Transacao {
     private UUID idTransacao;
     private UUID idCliente;
     private String tipo;
-    private String data;
+    @CreationTimestamp
+    @Column(updatable = false)
+    private String dataTransacao;
     private String quantia;
+    private UUID idClienteDestino;
 
     protected Transacao(){}
 
-    public Transacao(UUID idCliente, String tipo, String data, String quantia) {
+    public Transacao(UUID idCliente, String tipo, String quantia) {
         this.idCliente = idCliente;
         this.tipo = tipo;
-        this.data = data;
         this.quantia = quantia;
+    }
+
+    public Transacao(UUID idCliente, String tipo, String quantia, UUID idClienteDestino) {
+        this.idCliente = idCliente;
+        this.tipo = tipo;
+        this.quantia = quantia;
+        this.idClienteDestino = idClienteDestino;
     }
 
     public UUID getIdTransacao() {
@@ -52,12 +60,12 @@ public class Transacao {
         this.tipo = tipo;
     }
 
-    public String getData() {
-        return data;
+    public String getDataTransacao() {
+        return dataTransacao;
     }
 
-    public void setData(String data) {
-        this.data = data;
+    public void setDataTransacao(String dataTransacao) {
+        this.dataTransacao = dataTransacao;
     }
 
     public String getQuantia() {
@@ -66,5 +74,13 @@ public class Transacao {
 
     public void setQuantia(String quantia) {
         this.quantia = quantia;
+    }
+
+    public UUID getIdClienteDestino() {
+        return idClienteDestino;
+    }
+
+    public void setIdClienteDestino(UUID idClienteDestino) {
+        this.idClienteDestino = idClienteDestino;
     }
 }

@@ -1,12 +1,15 @@
 package com.ficticio.bancoficticio.model.entity;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.annotations.UuidGenerator;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
-@Table(name = "cliente")
+@Table(name = "cliente", uniqueConstraints = @UniqueConstraint(columnNames = {"cpf"}))
 public class Cliente {
     @Id
     @UuidGenerator
@@ -26,6 +29,11 @@ public class Cliente {
     private boolean chequeEspecial;
     private String pix = "";
     private int saquesFeitos = 0;
+    @CreationTimestamp
+    @Column(updatable = false)
+    private LocalDateTime dataCriacao;
+    @UpdateTimestamp
+    private LocalDateTime dataAtualizacao;
 
     protected Cliente(){}
 
