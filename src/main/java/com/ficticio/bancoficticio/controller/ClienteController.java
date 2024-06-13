@@ -19,12 +19,15 @@ public class ClienteController {
     }
 
     @GetMapping("/{id}/login")
-    public ResponseEntity<Cliente> fazLogin(@PathVariable UUID id) {
+    public ResponseEntity<Cliente> fazLogin(@PathVariable UUID id, @RequestBody Map<String, String> bodyRequest) {
         Optional<Cliente> clienteProcurado = clienteRepository.findById(id);
         if (clienteProcurado.isPresent()) {
-            Cliente clienteEncontrado = clienteProcurado.get();
-            clienteEncontrado.realizarLogin();
-            return ResponseEntity.ok(clienteRepository.save(clienteEncontrado));
+            if (clienteProcurado.get().getCpf().equals(bodyRequest.get("cpf")) && clienteProcurado.get().getSenha().equals(bodyRequest.get("senha"))) {
+                Cliente clienteEncontrado = clienteProcurado.get();
+                clienteEncontrado.realizarLogin();
+                return ResponseEntity.ok(clienteRepository.save(clienteEncontrado));
+            }
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
@@ -34,8 +37,11 @@ public class ClienteController {
         Optional<Cliente> clienteProcurado = clienteRepository.findById(id);
         if (clienteProcurado.isPresent()) {
             Cliente clienteEncontrado = clienteProcurado.get();
-            clienteEncontrado.realizarLogoff();
-            return ResponseEntity.ok(clienteRepository.save(clienteEncontrado));
+            if (clienteEncontrado.isLogado()){
+                clienteEncontrado.realizarLogoff();
+                return ResponseEntity.ok(clienteRepository.save(clienteEncontrado));
+            }
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
@@ -46,10 +52,13 @@ public class ClienteController {
 
         if(clienteProcurado.isPresent()) {
             Cliente clienteEncontrado = clienteProcurado.get();
-            String saldo = clienteEncontrado.verSaldo();
-            clienteRepository.save(clienteEncontrado);
-            return new ResponseEntity<>(saldo, HttpStatus.OK);
+            if (clienteEncontrado.isLogado()){
+                String saldo = clienteEncontrado.verSaldo();
+                clienteRepository.save(clienteEncontrado);
+                return new ResponseEntity<>(saldo, HttpStatus.OK);
             }
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
 
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
@@ -60,9 +69,12 @@ public class ClienteController {
 
         if(clienteProcurado.isPresent()) {
             Cliente clienteEncontrado = clienteProcurado.get();
-            String extrato = clienteEncontrado.verExtrato();
-            clienteRepository.save(clienteEncontrado);
-            return new ResponseEntity<>(extrato, HttpStatus.OK);
+            if (clienteEncontrado.isLogado()){
+                String extrato = clienteEncontrado.verExtrato();
+                clienteRepository.save(clienteEncontrado);
+                return new ResponseEntity<>(extrato, HttpStatus.OK);
+            }
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
             }
 
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -70,6 +82,7 @@ public class ClienteController {
 
     @PostMapping("/cadastrar")
     public ResponseEntity<Cliente> cadastraCliente(@RequestBody Cliente cliente) {
+        cliente.escolheConta(cliente.getRendaMensal());
         return new ResponseEntity<>(clienteRepository.save(cliente), HttpStatus.CREATED);
     }
 
@@ -79,8 +92,11 @@ public class ClienteController {
 
         if(clienteProcurado.isPresent()) {
             Cliente clienteEncontrado = clienteProcurado.get();
-            clienteRepository.deleteById(clienteEncontrado.getId());
-            return ResponseEntity.ok(clienteEncontrado);
+            if (clienteEncontrado.isLogado()){
+                clienteRepository.deleteById(clienteEncontrado.getId());
+                return ResponseEntity.ok(clienteEncontrado);
+            }
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
 
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -92,9 +108,12 @@ public class ClienteController {
 
         if(clienteProcurado.isPresent()) {
             Cliente clienteEncontrado = clienteProcurado.get();
-            String chavePix = bodyRequest.get("pix");
-            clienteEncontrado.cadastrarPix(chavePix);
-            return ResponseEntity.ok(clienteRepository.save(clienteEncontrado));
+            if (clienteEncontrado.isLogado()){
+                String chavePix = bodyRequest.get("pix");
+                clienteEncontrado.cadastrarPix(chavePix);
+                return ResponseEntity.ok(clienteRepository.save(clienteEncontrado));
+            }
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
 
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -106,8 +125,11 @@ public class ClienteController {
 
         if(clienteProcurado.isPresent()) {
             Cliente clienteEncontrado = clienteProcurado.get();
-            clienteEncontrado.descadastrarPix();
-            return ResponseEntity.ok(clienteRepository.save(clienteEncontrado));
+            if (clienteEncontrado.isLogado()){
+                clienteEncontrado.descadastrarPix();
+                return ResponseEntity.ok(clienteRepository.save(clienteEncontrado));
+            }
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
 
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -124,15 +146,19 @@ public class ClienteController {
             String transferencia = bodyRequest.get("saldo");
 
             Cliente clienteEncontradoOrigem = clienteProcuradoOrigem.get();
-            String saldoAtualizadoOrigem = String.valueOf(Double.parseDouble(clienteEncontradoOrigem.verSaldo()) - Double.parseDouble(transferencia));
-            clienteEncontradoOrigem.realizarSaque(saldoAtualizadoOrigem);
-
             Cliente clienteEncontradoDestino = clienteProcuradoDestino.get();
-            String saldoAtualizadoDestino = String.valueOf(Double.parseDouble(clienteEncontradoDestino.verSaldo()) + Double.parseDouble(transferencia));
-            clienteEncontradoDestino.realizarDeposito(saldoAtualizadoDestino);
-            clienteRepository.save(clienteEncontradoDestino);
 
-            return ResponseEntity.ok(clienteEncontradoOrigem);
+            if (clienteEncontradoOrigem.isLogado()){
+                String saldoAtualizadoOrigem = String.valueOf(Double.parseDouble(clienteEncontradoOrigem.verSaldo()) - Double.parseDouble(transferencia));
+                clienteEncontradoOrigem.realizarSaque(saldoAtualizadoOrigem);
+
+                String saldoAtualizadoDestino = String.valueOf(Double.parseDouble(clienteEncontradoDestino.verSaldo()) + Double.parseDouble(transferencia));
+                clienteEncontradoDestino.realizarDeposito(saldoAtualizadoDestino);
+                clienteRepository.save(clienteEncontradoDestino);
+
+                return ResponseEntity.ok(clienteEncontradoOrigem);
+            }
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
 
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -145,9 +171,12 @@ public class ClienteController {
         if(clienteProcurado.isPresent()) {
             String deposito = bodyRequest.get("saldo");
             Cliente clienteEncontrado = clienteProcurado.get();
-            String saldoAtualizado = String.valueOf(Double.parseDouble(clienteEncontrado.verSaldo()) + Double.parseDouble(deposito));
-            clienteEncontrado.realizarDeposito(saldoAtualizado);
-            return ResponseEntity.ok(clienteRepository.save(clienteEncontrado));
+            if (clienteEncontrado.isLogado()){
+                String saldoAtualizado = String.valueOf(Double.parseDouble(clienteEncontrado.verSaldo()) + Double.parseDouble(deposito));
+                clienteEncontrado.realizarDeposito(saldoAtualizado);
+                return ResponseEntity.ok(clienteRepository.save(clienteEncontrado));
+            }
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
 
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -160,9 +189,12 @@ public class ClienteController {
         if(clienteProcurado.isPresent()) {
             String saque = bodyRequest.get("saldo");
             Cliente clienteEncontrado = clienteProcurado.get();
-            String saldoAtualizado = String.valueOf(Double.parseDouble(clienteEncontrado.verSaldo()) - Double.parseDouble(saque));
-            clienteEncontrado.realizarSaque(saldoAtualizado);
-            return ResponseEntity.ok(clienteRepository.save(clienteEncontrado));
+            if (clienteEncontrado.isLogado()){
+                String saldoAtualizado = String.valueOf(Double.parseDouble(clienteEncontrado.verSaldo()) - Double.parseDouble(saque));
+                clienteEncontrado.realizarSaque(saldoAtualizado);
+                return ResponseEntity.ok(clienteRepository.save(clienteEncontrado));
+            }
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
 
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -175,9 +207,12 @@ public class ClienteController {
         if(clienteProcurado.isPresent()) {
             String pagamento = bodyRequest.get("saldo");
             Cliente clienteEncontrado = clienteProcurado.get();
-            String saldoAtualizado = String.valueOf(Double.parseDouble(clienteEncontrado.verSaldo()) - Double.parseDouble(pagamento));
-            clienteEncontrado.pagarConta(saldoAtualizado);
-            return ResponseEntity.ok(clienteRepository.save(clienteEncontrado));
+            if (clienteEncontrado.isLogado()){
+                String saldoAtualizado = String.valueOf(Double.parseDouble(clienteEncontrado.verSaldo()) - Double.parseDouble(pagamento));
+                clienteEncontrado.pagarConta(saldoAtualizado);
+                return ResponseEntity.ok(clienteRepository.save(clienteEncontrado));
+            }
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
 
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -190,8 +225,11 @@ public class ClienteController {
         if(clienteProcurado.isPresent()) {
             String senhaAtualizada = bodyRequest.get("senha");
             Cliente clienteEncontrado = clienteProcurado.get();
-            clienteEncontrado.setSenha(senhaAtualizada);
-            return ResponseEntity.ok(clienteRepository.save(clienteEncontrado));
+            if (clienteEncontrado.isLogado()){
+                clienteEncontrado.setSenha(senhaAtualizada);
+                return ResponseEntity.ok(clienteRepository.save(clienteEncontrado));
+            }
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
 
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -203,12 +241,15 @@ public class ClienteController {
 
         if(clienteProcurado.isPresent()) {
             Cliente clienteEncontrado = clienteProcurado.get();
-            clienteEncontrado.setTelefone(bodyRequest.getTelefone());
-            clienteEncontrado.setEndereco(bodyRequest.getEndereco());
-            clienteEncontrado.setRendaMensal(bodyRequest.getRendaMensal());
-            clienteEncontrado.setEmail(bodyRequest.getEmail());
-            clienteEncontrado.setSenha(bodyRequest.getSenha());
-            return ResponseEntity.ok(clienteRepository.save(clienteEncontrado));
+            if (clienteEncontrado.isLogado()){
+                clienteEncontrado.setTelefone(bodyRequest.getTelefone());
+                clienteEncontrado.setEndereco(bodyRequest.getEndereco());
+                clienteEncontrado.setRendaMensal(bodyRequest.getRendaMensal());
+                clienteEncontrado.setEmail(bodyRequest.getEmail());
+                clienteEncontrado.setSenha(bodyRequest.getSenha());
+                return ResponseEntity.ok(clienteRepository.save(clienteEncontrado));
+            }
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
 
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);

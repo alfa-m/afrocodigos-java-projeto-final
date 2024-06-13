@@ -1,20 +1,15 @@
 package com.ficticio.bancoficticio.model.entity;
 
-import com.ficticio.bancoficticio.controller.ClienteController;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import org.hibernate.annotations.UuidGenerator;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.UUID;
 
 @Entity
 @Table(name = "cliente")
 public class Cliente {
-    private static final Logger log = LoggerFactory.getLogger(ClienteController.class);
-
     @Id
     @UuidGenerator
     private UUID id;
@@ -28,6 +23,7 @@ public class Cliente {
     private String senha;
     private String saldo = "0";
     private String pix = "";
+    private String conta;
     private boolean logado = false;
     private int saquesFeitos = 0;
 
@@ -42,6 +38,7 @@ public class Cliente {
         this.rendaMensal = rendaMensal;
         this.email = email;
         this.senha = senha;
+        escolheConta(rendaMensal);
         System.out.println("Cliente criado com sucesso!");
     }
 
@@ -133,6 +130,14 @@ public class Cliente {
         this.pix = pix;
     }
 
+    public String getConta() {
+        return conta;
+    }
+
+    public void setConta(String conta) {
+        this.conta = conta;
+    }
+
     public boolean isLogado() {
         return logado;
     }
@@ -157,10 +162,6 @@ public class Cliente {
         setLogado(false);
     }
 
-    public void atualizarCadastro(){
-        System.out.println("Cadastro atualizado");
-    }
-
     public void cadastrarPix(String chavePix){
         setPix(chavePix);
     }
@@ -177,23 +178,25 @@ public class Cliente {
         return getSaldo();
     }
 
-    public void realizarTransferencia(){
-        System.out.println("Fazendo transferência");
+    public void escolheConta(String rendaMensal){
+        if (Double.parseDouble(rendaMensal) >= 2900.00){
+            setConta("contaCorrente");
+        }
+        else {
+            setConta("contaPagamento");
+        }
     }
 
     public void realizarDeposito(String saldoAtualizado){
         setSaldo(saldoAtualizado);
-        log.info("Depósito realizado com sucesso!");
     }
 
     public void realizarSaque(String saldoAtualizado){
         setSaldo(saldoAtualizado);
-        log.info("Saque realizado com sucesso!");
     }
 
     public void pagarConta(String saldoAtualizado){
         setSaldo(saldoAtualizado);
-        log.info("Pagamento de conta realizado com sucesso!");
     }
 
 }
