@@ -1,14 +1,12 @@
 package com.ficticio.bancoficticio.model.entity;
 
 import jakarta.persistence.Column;
-import jakarta.persistence.Embeddable;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-@Embeddable
 public abstract class Conta {
     private UUID idCliente;
 
@@ -33,9 +31,8 @@ public abstract class Conta {
 
     protected Conta(){}
 
-    public Conta(UUID idCliente, String rendaMensal) {
+    public Conta(UUID idCliente) {
         this.idCliente = idCliente;
-        this.rendaMensal = rendaMensal;
     }
 
     public UUID getIdCliente() {
@@ -52,6 +49,14 @@ public abstract class Conta {
 
     public void setTipo(String tipo) {
         this.tipo = tipo;
+    }
+
+    public String getRendaMensal() {
+        return rendaMensal;
+    }
+
+    public void setRendaMensal(String rendaMensal) {
+        this.rendaMensal = rendaMensal;
     }
 
     public String getSaldo() {
@@ -90,7 +95,15 @@ public abstract class Conta {
         return dataCriacaoConta;
     }
 
+    public void setDataCriacaoConta(LocalDateTime dataCriacaoConta) {
+        this.dataCriacaoConta = dataCriacaoConta;
+    }
+
     public LocalDateTime getDataAtualizacaoConta() {
         return dataAtualizacaoConta;
+    }
+
+    public void setDataAtualizacaoConta(LocalDateTime dataAtualizacaoConta) {
+        this.dataAtualizacaoConta = dataAtualizacaoConta;
     }
 }
