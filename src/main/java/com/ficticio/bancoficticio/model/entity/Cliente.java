@@ -1,6 +1,9 @@
 package com.ficticio.bancoficticio.model.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.annotations.UuidGenerator;
@@ -14,24 +17,66 @@ public class Cliente {
     @Id
     @UuidGenerator
     private UUID id;
+
+    @NotBlank(message = "CPF não pode ser vazio")
+    @Column(nullable = false)
+    @Pattern(regexp = "^\\d{3}\\.\\d{3}\\.\\d{3}-\\d{2}$", message = "Formato inserido incorreto. Por favor, utilize o formato XXX.XXX.XXX-XX")
     private String cpf;
+
+    @NotBlank(message = "Nome não pode ser vazio")
+    @Column(nullable = false)
+    @Size(min = 2, max = 255)
     private String nome;
+
+    @NotBlank(message = "Data de nascimento não pode ser vazio")
+    @Column(nullable = false)
+    @Pattern(regexp = "^(0[1-9]|[12][0-9]|3[01])/(0[1-9]|1[0-2])/[0-9]{4}$", message = "Formato inserido incorreto. Por favor, utilize o formato DD/MM/AAAA")
     private String dataNascimento;
+
+    @NotBlank(message = "Telefone não pode ser vazio")
+    @Column(nullable = false)
+    @Pattern(regexp = "^\\(?\\d{2}\\)?[\\s-]?(\\d{4,5})-?(\\d{4})$", message = "Formato inserido incorreto")
     private String telefone;
+
+    @NotBlank(message = "Endereço não pode ser vazio")
+    @Column(nullable = false)
+    @Size(min = 5, max = 255)
     private String endereco;
-    private String rendaMensal = "0";
+
+    @NotBlank(message = "Renda mensal não pode ser vazia")
+    @Column(nullable = false)
+    @Pattern(regexp = "^\\d+(,\\d{2})?$", message = "Renda informada não é válida. Por favor, insira um valor numérico válido")
+    private String rendaMensal;
+
+    @NotBlank(message = "E-mail não pode ser vazio")
+    @Column(nullable = false)
+    @Pattern(regexp = "^\\d{3}\\.\\d{3}\\.\\d{3}-\\d{2}$", message = "E-mail inválido")
     private String email;
+
+    @NotBlank(message = "Senha não pode ser vazia")
+    @Column(nullable = false)
+    @Size(min = 8, max = 100)
+    @Pattern(regexp = "^(?=.*\\d)[a-zA-Z\\d]{8,}$", message = "Por favor, utilize ao menos um numeral na sua senha")
     private String senha;
+
     private boolean logado = false;
+
     private String conta;
+
     private String saldo = "0";
+
     private String limite;
+
     private boolean chequeEspecial;
+
     private String pix = "";
+
     private int saquesFeitos = 0;
+
     @CreationTimestamp
     @Column(updatable = false)
     private LocalDateTime dataCriacao;
+
     @UpdateTimestamp
     private LocalDateTime dataAtualizacao;
 
