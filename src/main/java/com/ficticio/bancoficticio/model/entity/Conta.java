@@ -12,11 +12,13 @@ import java.util.UUID;
 public abstract class Conta {
     private UUID idCliente;
 
-    private String tipo;
+    protected String tipo;
+
+    private String rendaMensal;
 
     private String saldo = "0";
 
-    private String limite;
+    protected String limite;
 
     private String chavePix;
 
@@ -29,7 +31,66 @@ public abstract class Conta {
     @UpdateTimestamp
     private LocalDateTime dataAtualizacaoConta;
 
-    public Conta(UUID idCliente) {
+    protected Conta(){}
+
+    public Conta(UUID idCliente, String rendaMensal) {
         this.idCliente = idCliente;
+        this.rendaMensal = rendaMensal;
+    }
+
+    public UUID getIdCliente() {
+        return idCliente;
+    }
+
+    public void setIdCliente(UUID idCliente) {
+        this.idCliente = idCliente;
+    }
+
+    public String getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
+    }
+
+    public String getSaldo() {
+        return saldo;
+    }
+
+    public void setSaldo(String saldo) {
+        this.saldo = saldo;
+    }
+
+    public String getLimite() {
+        return limite;
+    }
+
+    public void setLimite(String limite) {
+        this.limite = limite;
+    }
+
+    public String getChavePix() {
+        return chavePix;
+    }
+
+    public void setChavePix(String chavePix) {
+        this.chavePix = chavePix;
+    }
+
+    public int getSaquesFeitos() {
+        return saquesFeitos;
+    }
+
+    public void setSaquesFeitos(int saquesFeitos) {
+        this.saquesFeitos = saquesFeitos;
+    }
+
+    public LocalDateTime getDataCriacaoConta() {
+        return dataCriacaoConta;
+    }
+
+    public LocalDateTime getDataAtualizacaoConta() {
+        return dataAtualizacaoConta;
     }
 }
