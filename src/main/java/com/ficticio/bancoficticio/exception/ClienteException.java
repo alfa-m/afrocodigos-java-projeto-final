@@ -22,4 +22,10 @@ public class ClienteException extends RuntimeException {
             super("Informações de login não compatíveis com a base de dados. Por favor, corrija suas informações ou realize um cadastro");
         }
     }
+
+    public static class ClienteNaoLogado extends ClienteException{
+        public ClienteNaoLogado(){
+            super("O cliente precisa estar logado para realizar tal operação. Por favor, realize o login");
+        }
+    }
 }

@@ -44,8 +44,12 @@ public class ClienteService {
 
     public void descadastrarCliente(Cliente cliente) {
         if (clienteRepository.findById(cliente.getId()).isPresent()) {
-            descadastrarConta(cliente);
-            clienteRepository.deleteById(cliente.getId());
+            if (cliente.isLogado()) {
+                descadastrarConta(cliente);
+                clienteRepository.deleteById(cliente.getId());
+            } else {
+                throw new ClienteException.ClienteNaoLogado();
+            }
         } else {
             throw new ClienteException.ClienteNaoCadastradoException();
         }

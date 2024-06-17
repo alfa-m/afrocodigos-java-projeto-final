@@ -68,9 +68,15 @@ public class ClienteController {
                     .orElseThrow(() -> new ClienteException.ClienteNaoCadastradoException());
             clienteService.deslogarCliente(cliente);
 
-            return ResponseEntity.status(HttpStatus.OK).body(cliente);
+            if (cliente.isLogado()){
+                return ResponseEntity.status(HttpStatus.OK).body(cliente);
+            } else {
+                throw new ClienteException.ClienteNaoLogado();
+            }
         } catch (ClienteException.ClienteNaoCadastradoException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        } catch (ClienteException.ClienteNaoLogado e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
         }
     }
 }
