@@ -1,26 +1,36 @@
 package com.ficticio.bancoficticio.model.entity;
 
-import jakarta.persistence.Column;
+import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
 
+@Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public abstract class Conta {
-    private UUID idCliente;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @OneToOne
+    @JoinColumn(name = "cliente")
+    private Cliente cliente;
 
     protected String tipo;
 
-    private String rendaMensal;
+    protected String rendaMensal;
 
-    private String saldo = "0";
+    protected String saldo = "0";
 
     protected String limite;
 
-    private String chavePix;
+    protected String transferenciaMaxima;
 
-    private int saquesFeitos;
+    protected String chavePix;
+
+    protected int saquesFeitos = 0;
+
 
     @CreationTimestamp
     @Column(updatable = false)
@@ -31,16 +41,24 @@ public abstract class Conta {
 
     protected Conta(){}
 
-    public Conta(UUID idCliente) {
-        this.idCliente = idCliente;
+    public Conta(Cliente cliente) {
+        this.cliente = cliente;
     }
 
-    public UUID getIdCliente() {
-        return idCliente;
+    public Long getId() {
+        return id;
     }
 
-    public void setIdCliente(UUID idCliente) {
-        this.idCliente = idCliente;
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Cliente getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
     }
 
     public String getTipo() {
@@ -75,6 +93,14 @@ public abstract class Conta {
         this.limite = limite;
     }
 
+    public String getTransferenciaMaxima() {
+        return transferenciaMaxima;
+    }
+
+    public void setTransferenciaMaxima(String transferenciaMaxima) {
+        this.transferenciaMaxima = transferenciaMaxima;
+    }
+
     public String getChavePix() {
         return chavePix;
     }
@@ -95,15 +121,8 @@ public abstract class Conta {
         return dataCriacaoConta;
     }
 
-    public void setDataCriacaoConta(LocalDateTime dataCriacaoConta) {
-        this.dataCriacaoConta = dataCriacaoConta;
-    }
-
     public LocalDateTime getDataAtualizacaoConta() {
         return dataAtualizacaoConta;
     }
 
-    public void setDataAtualizacaoConta(LocalDateTime dataAtualizacaoConta) {
-        this.dataAtualizacaoConta = dataAtualizacaoConta;
-    }
 }

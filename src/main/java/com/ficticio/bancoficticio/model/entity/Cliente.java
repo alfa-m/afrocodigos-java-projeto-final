@@ -12,7 +12,8 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
-@Table(name = "cliente", uniqueConstraints = @UniqueConstraint(columnNames = {"cpf"}))
+@Table(name = "cliente")
+        //, uniqueConstraints = @UniqueConstraint(columnNames = {"cpf"}))
 public class Cliente {
     @Id
     @UuidGenerator
@@ -30,12 +31,12 @@ public class Cliente {
 
     @NotBlank(message = "Data de nascimento não pode ser vazio")
     @Column(nullable = false)
-    @Pattern(regexp = "^(0[1-9]|[12][0-9]|3[01])/(0[1-9]|1[0-2])/[0-9]{4}$", message = "Formato inserido incorreto. Por favor, utilize o formato DD/MM/AAAA")
+    //@Pattern(regexp = "^(0[1-9]|[12][0-9]|3[01])/(0[1-9]|1[0-2])/[0-9]{4}$", message = "Formato inserido incorreto. Por favor, utilize o formato DD/MM/AAAA")
     private String dataNascimento;
 
     @NotBlank(message = "Telefone não pode ser vazio")
     @Column(nullable = false)
-    @Pattern(regexp = "^\\(?\\d{2}\\)?[\\s-]?(\\d{4,5})-?(\\d{4})$", message = "Formato inserido incorreto")
+    //@Pattern(regexp = "^\\(?\\d{2}\\)?[\\s-]?(\\d{4,5})-?(\\d{4})$", message = "Formato inserido incorreto")
     private String telefone;
 
     @NotBlank(message = "Endereço não pode ser vazio")
@@ -45,33 +46,22 @@ public class Cliente {
 
     @NotBlank(message = "Renda mensal não pode ser vazia")
     @Column(nullable = false)
-    @Pattern(regexp = "^\\d+(,\\d{2})?$", message = "Renda informada não é válida. Por favor, insira um valor numérico válido")
+    //@Pattern(regexp = "^\\d+(,\\d{2})?$", message = "Renda informada não é válida. Por favor, insira um valor numérico válido")
     private String rendaMensal;
 
     @NotBlank(message = "E-mail não pode ser vazio")
     @Column(nullable = false)
-    @Pattern(regexp = "^\\d{3}\\.\\d{3}\\.\\d{3}-\\d{2}$", message = "E-mail inválido")
+    //@Pattern(regexp = "^\\d{3}\\.\\d{3}\\.\\d{3}-\\d{2}$", message = "E-mail inválido")
     private String email;
 
     @NotBlank(message = "Senha não pode ser vazia")
     @Column(nullable = false)
     @Size(min = 8, max = 100)
-    @Pattern(regexp = "^(?=.*\\d)[a-zA-Z\\d]{8,}$", message = "Por favor, utilize ao menos um numeral na sua senha")
+    //@Pattern(regexp = "^(?=.*\\d)[a-zA-Z\\d]{8,}$", message = "Por favor, utilize ao menos um numeral na sua senha")
     private String senha;
 
     private boolean logado = false;
 
-    private String conta;
-
-    private String saldo = "0";
-
-    private String limite;
-
-    private boolean chequeEspecial;
-
-    private String pix = "";
-
-    private int saquesFeitos = 0;
 
     @CreationTimestamp
     @Column(updatable = false)
@@ -91,7 +81,6 @@ public class Cliente {
         this.rendaMensal = rendaMensal;
         this.email = email;
         this.senha = senha;
-        escolheConta(rendaMensal);
         System.out.println("Cliente criado com sucesso!");
     }
 
@@ -103,67 +92,67 @@ public class Cliente {
         this.id = id;
     }
 
-    public String getCpf() {
+    public @NotBlank(message = "CPF não pode ser vazio") @Pattern(regexp = "^\\d{3}\\.\\d{3}\\.\\d{3}-\\d{2}$", message = "Formato inserido incorreto. Por favor, utilize o formato XXX.XXX.XXX-XX") String getCpf() {
         return cpf;
     }
 
-    public void setCpf(String cpf) {
+    public void setCpf(@NotBlank(message = "CPF não pode ser vazio") @Pattern(regexp = "^\\d{3}\\.\\d{3}\\.\\d{3}-\\d{2}$", message = "Formato inserido incorreto. Por favor, utilize o formato XXX.XXX.XXX-XX") String cpf) {
         this.cpf = cpf;
     }
 
-    public String getNome() {
+    public @NotBlank(message = "Nome não pode ser vazio") @Size(min = 2, max = 255) String getNome() {
         return nome;
     }
 
-    public void setNome(String nome) {
+    public void setNome(@NotBlank(message = "Nome não pode ser vazio") @Size(min = 2, max = 255) String nome) {
         this.nome = nome;
     }
 
-    public String getDataNascimento() {
+    public @NotBlank(message = "Data de nascimento não pode ser vazio") String getDataNascimento() {
         return dataNascimento;
     }
 
-    public void setDataNascimento(String dataNascimento) {
+    public void setDataNascimento(@NotBlank(message = "Data de nascimento não pode ser vazio") String dataNascimento) {
         this.dataNascimento = dataNascimento;
     }
 
-    public String getTelefone() {
+    public @NotBlank(message = "Telefone não pode ser vazio") String getTelefone() {
         return telefone;
     }
 
-    public void setTelefone(String telefone) {
+    public void setTelefone(@NotBlank(message = "Telefone não pode ser vazio") String telefone) {
         this.telefone = telefone;
     }
 
-    public String getEndereco() {
+    public @NotBlank(message = "Endereço não pode ser vazio") @Size(min = 5, max = 255) String getEndereco() {
         return endereco;
     }
 
-    public void setEndereco(String endereco) {
+    public void setEndereco(@NotBlank(message = "Endereço não pode ser vazio") @Size(min = 5, max = 255) String endereco) {
         this.endereco = endereco;
     }
 
-    public String getRendaMensal() {
+    public @NotBlank(message = "Renda mensal não pode ser vazia") String getRendaMensal() {
         return rendaMensal;
     }
 
-    public void setRendaMensal(String rendaMensal) {
+    public void setRendaMensal(@NotBlank(message = "Renda mensal não pode ser vazia") String rendaMensal) {
         this.rendaMensal = rendaMensal;
     }
 
-    public String getEmail() {
+    public @NotBlank(message = "E-mail não pode ser vazio") String getEmail() {
         return email;
     }
 
-    public void setEmail(String email) {
+    public void setEmail(@NotBlank(message = "E-mail não pode ser vazio") String email) {
         this.email = email;
     }
 
-    public String getSenha() {
+    public @NotBlank(message = "Senha não pode ser vazia") @Size(min = 8, max = 100) String getSenha() {
         return senha;
     }
 
-    public void setSenha(String senha) {
+    public void setSenha(@NotBlank(message = "Senha não pode ser vazia") @Size(min = 8, max = 100) String senha) {
         this.senha = senha;
     }
 
@@ -175,108 +164,19 @@ public class Cliente {
         this.logado = logado;
     }
 
-    public String getConta() {
-        return conta;
+    public LocalDateTime getDataCriacao() {
+        return dataCriacao;
     }
 
-    public void setConta(String conta) {
-        this.conta = conta;
+    public void setDataCriacao(LocalDateTime dataCriacao) {
+        this.dataCriacao = dataCriacao;
     }
 
-    public String getSaldo() {
-        return saldo;
+    public LocalDateTime getDataAtualizacao() {
+        return dataAtualizacao;
     }
 
-    public void setSaldo(String saldo) {
-        this.saldo = saldo;
-    }
-
-    public String getLimite() {
-        return limite;
-    }
-
-    public void setLimite(String limite) {
-        this.limite = limite;
-    }
-
-    public boolean isChequeEspecial() {
-        return chequeEspecial;
-    }
-
-    public void setChequeEspecial(boolean chequeEspecial) {
-        this.chequeEspecial = chequeEspecial;
-    }
-
-    public String getPix() {
-        return pix;
-    }
-
-    public void setPix(String pix) {
-        this.pix = pix;
-    }
-
-    public int getSaquesFeitos() {
-        return saquesFeitos;
-    }
-
-    public void setSaquesFeitos(int saquesFeitos) {
-        this.saquesFeitos = saquesFeitos;
-    }
-
-    public void realizarLogin(){
-        setLogado(true);
-    }
-
-    public void realizarLogoff(){
-        setLogado(false);
-    }
-
-    public void cadastrarPix(String chavePix){
-        setPix(chavePix);
-    }
-
-    public void descadastrarPix(){
-        setPix("");
-    }
-
-    public String verSaldo(){
-        return getSaldo();
-    }
-
-    public String verExtrato(){
-        return getSaldo();
-    }
-
-    public void escolheConta(String rendaMensal){
-        if (Double.parseDouble(rendaMensal) >= 2900.00){
-            setConta("contaCorrente");
-            setChequeEspecial(true);
-        }
-        else {
-            setConta("contaPagamento");
-            setChequeEspecial(false);
-        }
-        atualizarLimite();
-    }
-
-    public void realizarDeposito(String saldoAtualizado){
-        setSaldo(saldoAtualizado);
-    }
-
-    public void realizarSaque(String saldoAtualizado){
-        setSaldo(saldoAtualizado);
-    }
-
-    public void pagarConta(String saldoAtualizado){
-        setSaldo(saldoAtualizado);
-    }
-
-    public void atualizarLimite(){
-        if (getConta().equals("contaCorrente")){
-            setLimite(String.valueOf(Double.parseDouble(getSaldo()) + (0.1 * Double.parseDouble(getRendaMensal()))));
-        }
-        else {
-            setLimite(getSaldo());
-        }
+    public void setDataAtualizacao(LocalDateTime dataAtualizacao) {
+        this.dataAtualizacao = dataAtualizacao;
     }
 }

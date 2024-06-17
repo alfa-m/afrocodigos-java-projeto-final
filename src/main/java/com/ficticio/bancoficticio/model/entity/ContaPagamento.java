@@ -1,9 +1,18 @@
 package com.ficticio.bancoficticio.model.entity;
 
-import java.util.UUID;
+import jakarta.persistence.Entity;
 
+@Entity
 public class ContaPagamento extends Conta{
-    public ContaPagamento(UUID idCliente) {
-        super(idCliente);
+    public ContaPagamento() {
+    }
+
+    public ContaPagamento(Cliente cliente) {
+        super(cliente);
+        tipo = "ContaPagamento";
+        rendaMensal = cliente.getRendaMensal();
+        saldo = "0";
+        limite = saldo;
+
     }
 }

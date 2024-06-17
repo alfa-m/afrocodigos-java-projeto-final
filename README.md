@@ -3,7 +3,7 @@
  Projeto final do bootcamp Afrocódigos - Trilha Back-End. Mock-up de API de instituição financeira.
 
 ## Rotas da API
-### Rotas GET
+### Rotas da área do cliente
 #### /GET/login/{id}
 Operação de login.
 
