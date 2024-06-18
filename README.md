@@ -4,8 +4,28 @@
 
 ## Rotas da API
 ### Rotas da área do cliente
-#### /GET/login/{id}
+#### [POST] /cadastro
+Operação de cadastro de novo cliente.
+
+#### [DELETE] /encerramento-de-conta
+Operação de encerrar a conta bancária.
+
+#### [PUT] /login
 Operação de login.
+
+#### [PUT] /logoff
+Operação de logoff.
+
+#### [PUT] /atualizar-cadastro (PENDENTE)
+Operação de atualização dos dados cadastrais.
+
+#### [PATCH] /redefinir-senha (PENDENTE)
+Operação de redefinir de senha.
+
+### Rotas da área de conta bancária (PENDENTE)
+
+
+
 
 #### /GET/{id}/saldo
 Operação de obtenção de saldo.
@@ -13,16 +33,12 @@ Operação de obtenção de saldo.
 #### /GET/{id}/extrato
 Operação de obtenção de extrato.
 
-### Rotas POST
-#### /POST/cadastrar
-Operação de cadastro de novo cliente.
+### 
 
 #### /POST/{id}/pix/cadastrar
 Operação de cadastro de nova chave pix.
 
 ### Rotas PUT
-#### /PUT/{id}/atualizar
-Operação de atualização dos dados cadastrais.
 
 ### Rotas PATCH
 #### /PATCH/{idOrigem}/transferencia/{idDestino}
@@ -37,12 +53,8 @@ Operação de saque bancário.
 #### /PATCH/{id}/pagamento
 Operação de pagamentos de contas.
 
-#### /PATCH/{id}/redefinir-senha
-Operação de redefinir de senha.
 
 ### Rotas DELETE
-#### /DELETE/{id}/deletar
-Operação de encerrar a conta bancária.
 
 #### /DELETE/{id}/pix/deletar
 Operação de apagar chave pix.

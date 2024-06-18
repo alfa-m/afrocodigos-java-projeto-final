@@ -84,4 +84,8 @@ public class ClienteController {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
         }
     }
+
+    //@PutMapping("/atualizar-cadastro")
+
+    //@PatchMapping("/redefinir-senha")
 }
