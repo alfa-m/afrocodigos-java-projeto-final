@@ -25,11 +25,7 @@ public class ClienteController {
         this.clienteRepository = clienteRepository;
     }
 
-    @GetMapping("/olar")
-    public String helloWorld(){
-        return "OLAR";
-    }
-    
+
     @PostMapping("/cadastro")
     public ResponseEntity<Object> criaConta(@RequestBody Cliente clienteBody) {
         try {
@@ -42,18 +38,25 @@ public class ClienteController {
         }
     }
 
-    @DeleteMapping("encerramento-de-conta")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void encerraConta(@RequestBody Cliente clienteBody) {
-        clienteService.descadastrarCliente(clienteBody);
+    @DeleteMapping("/{id}/encerramento-de-conta")
+    public ResponseEntity<Object> encerraConta(@PathVariable UUID id) {
+        try {
+            Cliente cliente = clienteRepository.findById(id).get();
+            clienteService.descadastrarCliente(cliente);
+            return ResponseEntity.noContent().build();
+        } catch (ClienteException.ClienteNaoCadastradoException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        } catch (ClienteException.ClienteNaoLogadoException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
+        }
     }
 
-    @PutMapping("/login")
-    public ResponseEntity<Object> fazLogin(@RequestBody Map<String, String> loginBody){
+    @PatchMapping("/login")
+    public ResponseEntity<Object> fazLogin(@RequestBody Map<String, String> loginBody) {
         try {
             Cliente cliente = clienteRepository.findClienteByCpfAndSenha(loginBody.get("cpf"), loginBody.get("senha"));
 
-            if (cliente != null){
+            if (cliente != null) {
                 clienteService.logarCliente(cliente);
                 clienteRepository.save(cliente);
 
@@ -61,31 +64,64 @@ public class ClienteController {
             } else {
                 throw new ClienteException.LoginIncorretoException();
             }
-        } catch (ClienteException.LoginIncorretoException e){
+        } catch (ClienteException.LoginIncorretoException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 
-    @PutMapping("/logoff")
-    public ResponseEntity<Object> fazLogoff(@RequestBody Map<String, String> logoffBody){
+    @PatchMapping("/redefinir-senha")
+    public ResponseEntity<Object> redefineSenha(@RequestBody Map<String, String> novaSenhaBody) {
         try {
-            Cliente cliente = clienteRepository.findById(UUID.fromString(logoffBody.get("id")))
+            Cliente cliente = clienteRepository.findClienteByCpfAndEmail(novaSenhaBody.get("cpf"), novaSenhaBody.get("email"));
+            clienteService.redefinirSenha(cliente, novaSenhaBody.get("senha"));
+            return ResponseEntity.ok().build();
+        } catch (ClienteException.ClienteNaoCadastradoException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @PatchMapping("/{id}/logoff")
+    public ResponseEntity<Object> fazLogoff(@PathVariable UUID id) {
+        try {
+            Cliente cliente = clienteRepository.findById(id)
                     .orElseThrow(() -> new ClienteException.ClienteNaoCadastradoException());
             clienteService.deslogarCliente(cliente);
 
-            if (cliente.isLogado()){
+            if (cliente.isLogado()) {
                 return ResponseEntity.status(HttpStatus.OK).body(cliente);
             } else {
-                throw new ClienteException.ClienteNaoLogado();
+                throw new ClienteException.ClienteNaoLogadoException();
             }
         } catch (ClienteException.ClienteNaoCadastradoException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-        } catch (ClienteException.ClienteNaoLogado e) {
+        } catch (ClienteException.ClienteNaoLogadoException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
         }
     }
 
-    //@PutMapping("/atualizar-cadastro")
+    @PatchMapping("/{id}/upgrade-de-conta")
+    public ResponseEntity<Object> atualizaConta(@PathVariable UUID id){
+        try {
+            clienteService.upgradeConta(id);
+            return ResponseEntity.ok().build();
+        } catch (ClienteException.ClienteNaoCadastradoException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        } catch (ClienteException.ClienteNaoLogadoException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
+        } catch (ClienteException.RendaBaixaException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.UNAUTHORIZED);
+        }
+    }
 
-    //@PatchMapping("/redefinir-senha")
+    @PutMapping("/{id}/atualizar-cadastro")
+    public ResponseEntity<Object> atualizaCadastro(@PathVariable UUID id, @RequestBody Cliente cliente) {
+        try {
+            clienteService.atualizarCliente(id, cliente);
+            return ResponseEntity.status(HttpStatus.OK).body(cliente);
+        } catch(ClienteException.ClienteNaoCadastradoException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        } catch(ClienteException.ClienteNaoLogadoException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
+        }
+    }
 }

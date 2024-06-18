@@ -11,8 +11,6 @@ public class ContaPagamento extends Conta{
         super(cliente);
         tipo = "ContaPagamento";
         rendaMensal = cliente.getRendaMensal();
-        saldo = "0";
         limite = saldo;
-
     }
 }

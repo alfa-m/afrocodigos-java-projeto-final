@@ -11,8 +11,7 @@ public class ContaCorrente extends Conta {
         super(cliente);
         tipo = "ContaCorrente";
         rendaMensal = cliente.getRendaMensal();
-        saldo = "0";
-        limite = String.valueOf(Double.parseDouble(saldo) + (0.1 * Double.parseDouble(rendaMensal)));
+        limite = saldo + (0.1 * rendaMensal);
     }
 }
 

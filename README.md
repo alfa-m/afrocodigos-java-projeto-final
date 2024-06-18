@@ -7,20 +7,23 @@
 #### [POST] /cadastro
 Operação de cadastro de novo cliente.
 
-#### [DELETE] /encerramento-de-conta
+#### [DELETE] /{id}/encerramento-de-conta
 Operação de encerrar a conta bancária.
 
-#### [PUT] /login
+#### [PATCH] /login
 Operação de login.
 
-#### [PUT] /logoff
+#### [PATCH] /redefinir-senha
+Operação de redefinir de senha.
+
+#### [PATCH] /{id}/logoff
 Operação de logoff.
 
-#### [PUT] /atualizar-cadastro (PENDENTE)
-Operação de atualização dos dados cadastrais.
+#### [PATCH] /{id}/upgrade-de-conta
+Operação de atualização do tipo de conta bancária.
 
-#### [PATCH] /redefinir-senha (PENDENTE)
-Operação de redefinir de senha.
+#### [PUT] /{id}/atualizar-cadastro
+Operação de atualização dos dados cadastrais.
 
 ### Rotas da área de conta bancária (PENDENTE)
 

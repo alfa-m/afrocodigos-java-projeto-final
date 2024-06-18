@@ -47,7 +47,7 @@ public class Cliente {
     @NotBlank(message = "Renda mensal não pode ser vazia")
     @Column(nullable = false)
     //@Pattern(regexp = "^\\d+(,\\d{2})?$", message = "Renda informada não é válida. Por favor, insira um valor numérico válido")
-    private String rendaMensal;
+    private Double rendaMensal;
 
     @NotBlank(message = "E-mail não pode ser vazio")
     @Column(nullable = false)
@@ -72,7 +72,7 @@ public class Cliente {
 
     protected Cliente(){}
 
-    public Cliente(String cpf, String nome, String dataNascimento, String telefone, String endereco, String rendaMensal, String email, String senha) {
+    public Cliente(String cpf, String nome, String dataNascimento, String telefone, String endereco, Double rendaMensal, String email, String senha) {
         this.cpf = cpf;
         this.nome = nome;
         this.dataNascimento = dataNascimento;
@@ -132,11 +132,11 @@ public class Cliente {
         this.endereco = endereco;
     }
 
-    public @NotBlank(message = "Renda mensal não pode ser vazia") String getRendaMensal() {
+    public @NotBlank(message = "Renda mensal não pode ser vazia") Double getRendaMensal() {
         return rendaMensal;
     }
 
-    public void setRendaMensal(@NotBlank(message = "Renda mensal não pode ser vazia") String rendaMensal) {
+    public void setRendaMensal(@NotBlank(message = "Renda mensal não pode ser vazia") Double rendaMensal) {
         this.rendaMensal = rendaMensal;
     }
 

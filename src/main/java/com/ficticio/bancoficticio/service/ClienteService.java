@@ -9,6 +9,8 @@ import com.ficticio.bancoficticio.repository.ClienteRepository;
 import com.ficticio.bancoficticio.repository.ContaRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 @Service
 public class ClienteService {
     private final ContaRepository contaRepository;
@@ -30,7 +32,7 @@ public class ClienteService {
     }
 
     public Conta selecionarConta(Cliente cliente) {
-        if (Double.parseDouble(cliente.getRendaMensal()) >= 2900.00) {
+        if (cliente.getRendaMensal() >= 2900.00) {
             return new ContaCorrente(cliente);
         } else {
             return new ContaPagamento(cliente);
@@ -48,7 +50,64 @@ public class ClienteService {
                 descadastrarConta(cliente);
                 clienteRepository.deleteById(cliente.getId());
             } else {
-                throw new ClienteException.ClienteNaoLogado();
+                throw new ClienteException.ClienteNaoLogadoException();
+            }
+        } else {
+            throw new ClienteException.ClienteNaoCadastradoException();
+        }
+    }
+
+    public void atualizarCliente(UUID id, Cliente cliente) {
+        if (clienteRepository.findById(id).isPresent()) {
+            if (cliente.isLogado()) {
+                Cliente clienteAtualizado = cliente;
+                clienteAtualizado.setTelefone(cliente.getTelefone());
+                clienteAtualizado.setEndereco(cliente.getEndereco());
+                clienteAtualizado.setRendaMensal(cliente.getRendaMensal());
+                clienteAtualizado.setEmail(cliente.getEmail());
+                clienteAtualizado.setSenha(cliente.getSenha());
+
+                if (clienteAtualizado.getRendaMensal() >= 2900.00) {
+                    ofertarUpgradeConta(clienteAtualizado);
+                }
+
+                clienteRepository.save(clienteAtualizado);
+            } else {
+                throw new ClienteException.ClienteNaoLogadoException();
+            }
+        } else {
+            throw new ClienteException.ClienteNaoCadastradoException();
+        }
+    }
+
+    public void redefinirSenha(Cliente cliente, String senha) {
+        if (clienteRepository.findById(cliente.getId()).isPresent()) {
+            cliente.setSenha(senha);
+            clienteRepository.save(cliente);
+        } else {
+            throw new ClienteException.ClienteNaoCadastradoException();
+        }
+    }
+
+    public void ofertarUpgradeConta(Cliente cliente) {
+        System.out.println("Você gostaria de atualizar sua conta para a categoria Conta Corrente?");
+        System.out.println("Acesse /upgrade-de-conta para fazer a atualização!");
+    }
+
+    public void upgradeConta(UUID id) {
+        if (clienteRepository.findById(id).isPresent()) {
+            Cliente cliente = clienteRepository.findById(id).get();
+            if (cliente.isLogado()) {
+                if (cliente.getRendaMensal() < 2900.00) {
+                    Conta contaAntiga = contaRepository.findByCliente(cliente);
+                    contaRepository.delete(contaAntiga);
+                    Conta contaNova = new ContaCorrente(cliente);
+                    contaRepository.save(contaNova);
+                } else {
+                    throw new ClienteException.RendaBaixaException();
+                }
+            } else {
+                throw new ClienteException.ClienteNaoLogadoException();
             }
         } else {
             throw new ClienteException.ClienteNaoCadastradoException();

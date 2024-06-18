@@ -10,4 +10,6 @@ public interface ClienteRepository extends JpaRepository<Cliente, UUID> {
 
     Cliente findClienteByCpfAndSenha(String cpf, String senha);
 
+    Cliente findClienteByCpfAndEmail(String cpf, String email);
+
 }

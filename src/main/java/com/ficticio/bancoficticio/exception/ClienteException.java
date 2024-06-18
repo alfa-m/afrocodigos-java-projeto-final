@@ -23,9 +23,14 @@ public class ClienteException extends RuntimeException {
         }
     }
 
-    public static class ClienteNaoLogado extends ClienteException{
-        public ClienteNaoLogado(){
+    public static class ClienteNaoLogadoException extends ClienteException{
+        public ClienteNaoLogadoException(){
             super("O cliente precisa estar logado para realizar tal operação. Por favor, realize o login");
+        }
+    }
+    public static class RendaBaixaException extends ClienteException{
+        public RendaBaixaException(){
+            super("O cliente não possui a renda mínima para fazer o upgrade de conta");
         }
     }
 }

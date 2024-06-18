@@ -19,13 +19,13 @@ public abstract class Conta {
 
     protected String tipo;
 
-    protected String rendaMensal;
+    protected Double rendaMensal;
 
-    protected String saldo = "0";
+    protected Double saldo = 0.0;
 
-    protected String limite;
+    protected Double limite;
 
-    protected String transferenciaMaxima;
+    protected Double transferenciaMaxima;
 
     protected String chavePix;
 
@@ -69,35 +69,35 @@ public abstract class Conta {
         this.tipo = tipo;
     }
 
-    public String getRendaMensal() {
+    public Double getRendaMensal() {
         return rendaMensal;
     }
 
-    public void setRendaMensal(String rendaMensal) {
+    public void setRendaMensal(Double rendaMensal) {
         this.rendaMensal = rendaMensal;
     }
 
-    public String getSaldo() {
+    public Double getSaldo() {
         return saldo;
     }
 
-    public void setSaldo(String saldo) {
+    public void setSaldo(Double saldo) {
         this.saldo = saldo;
     }
 
-    public String getLimite() {
+    public Double getLimite() {
         return limite;
     }
 
-    public void setLimite(String limite) {
+    public void setLimite(Double limite) {
         this.limite = limite;
     }
 
-    public String getTransferenciaMaxima() {
+    public Double getTransferenciaMaxima() {
         return transferenciaMaxima;
     }
 
-    public void setTransferenciaMaxima(String transferenciaMaxima) {
+    public void setTransferenciaMaxima(Double transferenciaMaxima) {
         this.transferenciaMaxima = transferenciaMaxima;
     }
 
