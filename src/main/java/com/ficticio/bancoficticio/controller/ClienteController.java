@@ -25,6 +25,11 @@ public class ClienteController {
         this.clienteRepository = clienteRepository;
     }
 
+    @GetMapping("/olar")
+    public String helloWorld(){
+        return "OLAR";
+    }
+    
     @PostMapping("/cadastro")
     public ResponseEntity<Object> criaConta(@RequestBody Cliente clienteBody) {
         try {
