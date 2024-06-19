@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -25,6 +26,10 @@ public class ClienteController {
         this.clienteRepository = clienteRepository;
     }
 
+    @GetMapping("/clientes")
+    public List<Cliente> listaClientes(){
+        return clienteRepository.findAll();
+    }
 
     @PostMapping("/cadastro")
     public ResponseEntity<Object> criaConta(@RequestBody Cliente clienteBody) {
@@ -85,9 +90,9 @@ public class ClienteController {
         try {
             Cliente cliente = clienteRepository.findById(id)
                     .orElseThrow(() -> new ClienteException.ClienteNaoCadastradoException());
-            clienteService.deslogarCliente(cliente);
 
             if (cliente.isLogado()) {
+                clienteService.deslogarCliente(cliente);
                 return ResponseEntity.status(HttpStatus.OK).body(cliente);
             } else {
                 throw new ClienteException.ClienteNaoLogadoException();

@@ -1,5 +1,6 @@
 package com.ficticio.bancoficticio.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
@@ -12,8 +13,7 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
-@Table(name = "cliente")
-        //, uniqueConstraints = @UniqueConstraint(columnNames = {"cpf"}))
+@Table(name = "cliente", uniqueConstraints = @UniqueConstraint(columnNames = {"cpf"}))
 public class Cliente {
     @Id
     @UuidGenerator
@@ -44,10 +44,10 @@ public class Cliente {
     @Size(min = 5, max = 255)
     private String endereco;
 
-    @NotBlank(message = "Renda mensal não pode ser vazia")
-    @Column(nullable = false)
+    //@NotBlank(message = "Renda mensal não pode ser vazia")
+    //@Column(nullable = false)
     //@Pattern(regexp = "^\\d+(,\\d{2})?$", message = "Renda informada não é válida. Por favor, insira um valor numérico válido")
-    private Double rendaMensal;
+    private double rendaMensal;
 
     @NotBlank(message = "E-mail não pode ser vazio")
     @Column(nullable = false)
@@ -62,17 +62,18 @@ public class Cliente {
 
     private boolean logado = false;
 
-
     @CreationTimestamp
     @Column(updatable = false)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
     private LocalDateTime dataCriacao;
 
     @UpdateTimestamp
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
     private LocalDateTime dataAtualizacao;
 
     protected Cliente(){}
 
-    public Cliente(String cpf, String nome, String dataNascimento, String telefone, String endereco, Double rendaMensal, String email, String senha) {
+    public Cliente(String cpf, String nome, String dataNascimento, String telefone, String endereco, double rendaMensal, String email, String senha) {
         this.cpf = cpf;
         this.nome = nome;
         this.dataNascimento = dataNascimento;
@@ -132,11 +133,11 @@ public class Cliente {
         this.endereco = endereco;
     }
 
-    public @NotBlank(message = "Renda mensal não pode ser vazia") Double getRendaMensal() {
+    public double getRendaMensal() {
         return rendaMensal;
     }
 
-    public void setRendaMensal(@NotBlank(message = "Renda mensal não pode ser vazia") Double rendaMensal) {
+    public void setRendaMensal(double rendaMensal) {
         this.rendaMensal = rendaMensal;
     }
 

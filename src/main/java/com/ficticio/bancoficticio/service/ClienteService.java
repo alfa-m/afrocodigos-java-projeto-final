@@ -59,8 +59,8 @@ public class ClienteService {
 
     public void atualizarCliente(UUID id, Cliente cliente) {
         if (clienteRepository.findById(id).isPresent()) {
-            if (cliente.isLogado()) {
-                Cliente clienteAtualizado = cliente;
+            Cliente clienteAtualizado = clienteRepository.findById(id).get();
+            if (clienteAtualizado.isLogado()) {
                 clienteAtualizado.setTelefone(cliente.getTelefone());
                 clienteAtualizado.setEndereco(cliente.getEndereco());
                 clienteAtualizado.setRendaMensal(cliente.getRendaMensal());
@@ -90,15 +90,15 @@ public class ClienteService {
     }
 
     public void ofertarUpgradeConta(Cliente cliente) {
-        System.out.println("Você gostaria de atualizar sua conta para a categoria Conta Corrente?");
-        System.out.println("Acesse /upgrade-de-conta para fazer a atualização!");
+        System.out.println("Cliente apto a atualizar conta para a categoria Conta Corrente?");
+        System.out.println("Redirecione o cliente para /upgrade-de-conta para realizar a atualizar");
     }
 
     public void upgradeConta(UUID id) {
         if (clienteRepository.findById(id).isPresent()) {
             Cliente cliente = clienteRepository.findById(id).get();
             if (cliente.isLogado()) {
-                if (cliente.getRendaMensal() < 2900.00) {
+                if (cliente.getRendaMensal() >= 2900.00) {
                     Conta contaAntiga = contaRepository.findByCliente(cliente);
                     contaRepository.delete(contaAntiga);
                     Conta contaNova = new ContaCorrente(cliente);
