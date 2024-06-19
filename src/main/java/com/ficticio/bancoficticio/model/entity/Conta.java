@@ -6,22 +6,18 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
 public abstract class Conta {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
 
     @OneToOne
     @JoinColumn(name = "cliente")
     private Cliente cliente;
-
-    protected String tipo;
-
-    protected double rendaMensal;
 
     protected double saldo = 0.0;
 
@@ -49,11 +45,11 @@ public abstract class Conta {
         this.cliente = cliente;
     }
 
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
@@ -63,22 +59,6 @@ public abstract class Conta {
 
     public void setCliente(Cliente cliente) {
         this.cliente = cliente;
-    }
-
-    public String getTipo() {
-        return tipo;
-    }
-
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
-    }
-
-    public double getRendaMensal() {
-        return rendaMensal;
-    }
-
-    public void setRendaMensal(double rendaMensal) {
-        this.rendaMensal = rendaMensal;
     }
 
     public double getSaldo() {

@@ -9,9 +9,7 @@ public class ContaCorrente extends Conta {
 
     public ContaCorrente(Cliente cliente) {
         super(cliente);
-        tipo = "ContaCorrente";
-        rendaMensal = cliente.getRendaMensal();
-        limite = saldo + (0.1 * rendaMensal);
+        limite = saldo + (0.1 * cliente.getRendaMensal());
     }
 }
 

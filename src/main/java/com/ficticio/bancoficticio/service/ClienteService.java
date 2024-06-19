@@ -90,7 +90,7 @@ public class ClienteService {
     }
 
     public void ofertarUpgradeConta(Cliente cliente) {
-        System.out.println("Cliente apto a atualizar conta para a categoria Conta Corrente?");
+        System.out.println("Cliente apto a atualizar conta para a categoria 'Conta Corrente'");
         System.out.println("Redirecione o cliente para /upgrade-de-conta para realizar a atualizar");
     }
 

@@ -4,6 +4,8 @@ import com.ficticio.bancoficticio.model.entity.Cliente;
 import com.ficticio.bancoficticio.model.entity.Conta;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface ContaRepository extends JpaRepository <Conta, Long> {
+import java.util.UUID;
+
+public interface ContaRepository extends JpaRepository <Conta, UUID> {
     Conta findByCliente(Cliente cliente);
 }

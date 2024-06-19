@@ -9,8 +9,7 @@ public class ContaPagamento extends Conta{
 
     public ContaPagamento(Cliente cliente) {
         super(cliente);
-        tipo = "ContaPagamento";
-        rendaMensal = cliente.getRendaMensal();
         limite = saldo;
+        transferenciaMaxima = 4999.99;
     }
 }
