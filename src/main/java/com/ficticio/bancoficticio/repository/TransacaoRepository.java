@@ -8,5 +8,7 @@ import java.util.List;
 import java.util.UUID;
 
 public interface TransacaoRepository extends JpaRepository<Transacao, UUID> {
+    List<Transacao> findTransacaosByTipoContainingIgnoreCase(String tipo);
     List<Transacao> findTransacaosByIdContaIsAndDataTransacaoIsBetween(UUID idConta, LocalDateTime dataInicio, LocalDateTime dataFim);
+    List<Transacao> findTransacaosByTipoContainingIgnoreCaseAndIdContaIsAndDataTransacaoIsBetween(String tipo, UUID idConta, LocalDateTime dataInicio, LocalDateTime dataFim);
 }

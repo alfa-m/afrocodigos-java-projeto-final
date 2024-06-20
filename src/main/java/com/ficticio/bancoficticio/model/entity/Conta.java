@@ -29,8 +29,6 @@ public abstract class Conta {
 
     protected String chavePix;
 
-    protected int saquesFeitos = 0;
-
     @CreationTimestamp
     @Column(updatable = false)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
@@ -100,14 +98,6 @@ public abstract class Conta {
 
     public void setChavePix(String chavePix) {
         this.chavePix = chavePix;
-    }
-
-    public int getSaquesFeitos() {
-        return saquesFeitos;
-    }
-
-    public void setSaquesFeitos(int saquesFeitos) {
-        this.saquesFeitos = saquesFeitos;
     }
 
     public LocalDateTime getDataCriacaoConta() {

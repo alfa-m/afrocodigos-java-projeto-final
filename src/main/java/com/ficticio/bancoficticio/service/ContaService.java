@@ -10,7 +10,9 @@ import com.ficticio.bancoficticio.repository.ContaRepository;
 import com.ficticio.bancoficticio.repository.TransacaoRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.YearMonth;
 import java.util.List;
 import java.util.UUID;
 
@@ -92,14 +94,20 @@ public class ContaService {
 
             if (conta.getCliente().isLogado()) {
                 double taxaSaque = 0.00;
-                if (conta.getSaquesFeitos() > 5){
+                int mesAtual = LocalDate.now().getMonthValue();
+                int anoAtual = LocalDate.now().getYear();
+                int ultimoDiaMes = YearMonth.of(anoAtual, mesAtual).atEndOfMonth().getDayOfMonth();
+                LocalDateTime inicioMes = LocalDate.of(anoAtual, mesAtual, 1).atStartOfDay();
+                LocalDateTime fimMes = LocalDate.of(anoAtual, mesAtual, ultimoDiaMes).atTime(23,59,59);
+                int quantidadeSaques = transacaoRepository.findTransacaosByTipoContainingIgnoreCaseAndIdContaIsAndDataTransacaoIsBetween("saque", conta.getId(), inicioMes, fimMes).size();
+
+                if (quantidadeSaques >= 4){
                     taxaSaque = 6.50;
                 }
 
                 if (conta.getLimite() >= (quantia + taxaSaque)) {
                     conta.setSaldo(conta.getSaldo() - quantia - taxaSaque);
                     conta.atualizaLimite();
-                    conta.setSaquesFeitos(conta.getSaquesFeitos() + 1);
                     Transacao transacao = new Transacao(conta.getId(), "saque", quantia);
                     transacaoRepository.save(transacao);
                 } else {

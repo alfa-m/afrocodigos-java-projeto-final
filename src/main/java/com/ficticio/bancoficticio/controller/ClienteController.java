@@ -43,10 +43,10 @@ public class ClienteController {
         }
     }
 
-    @DeleteMapping("/{id}/encerramento-de-conta")
-    public ResponseEntity<Object> encerraConta(@PathVariable UUID id) {
+    @DeleteMapping("/{idCliente}/encerramento-de-conta")
+    public ResponseEntity<Object> encerraConta(@PathVariable UUID idCliente) {
         try {
-            Cliente cliente = clienteRepository.findById(id).get();
+            Cliente cliente = clienteRepository.findById(idCliente).get();
             clienteService.descadastrarCliente(cliente);
             return ResponseEntity.noContent().build();
         } catch (ClienteException.ClienteNaoCadastradoException e) {
@@ -85,10 +85,10 @@ public class ClienteController {
         }
     }
 
-    @PatchMapping("/{id}/logoff")
-    public ResponseEntity<Object> fazLogoff(@PathVariable UUID id) {
+    @PatchMapping("/{idCliente}/logoff")
+    public ResponseEntity<Object> fazLogoff(@PathVariable UUID idCliente) {
         try {
-            Cliente cliente = clienteRepository.findById(id)
+            Cliente cliente = clienteRepository.findById(idCliente)
                     .orElseThrow(() -> new ClienteException.ClienteNaoCadastradoException());
 
             if (cliente.isLogado()) {
@@ -104,10 +104,10 @@ public class ClienteController {
         }
     }
 
-    @PatchMapping("/{id}/upgrade-de-conta")
-    public ResponseEntity<Object> atualizaConta(@PathVariable UUID id){
+    @PatchMapping("/{idCliente}/upgrade-de-conta")
+    public ResponseEntity<Object> atualizaConta(@PathVariable UUID idCliente){
         try {
-            clienteService.upgradeConta(id);
+            clienteService.upgradeConta(idCliente);
             return ResponseEntity.ok().build();
         } catch (ClienteException.ClienteNaoCadastradoException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
@@ -118,10 +118,10 @@ public class ClienteController {
         }
     }
 
-    @PutMapping("/{id}/atualizar-cadastro")
-    public ResponseEntity<Object> atualizaCadastro(@PathVariable UUID id, @RequestBody Cliente cliente) {
+    @PutMapping("/{idCliente}/atualizar-cadastro")
+    public ResponseEntity<Object> atualizaCadastro(@PathVariable UUID idCliente, @RequestBody Cliente cliente) {
         try {
-            clienteService.atualizarCliente(id, cliente);
+            clienteService.atualizarCliente(idCliente, cliente);
             return ResponseEntity.status(HttpStatus.OK).body(cliente);
         } catch(ClienteException.ClienteNaoCadastradoException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);

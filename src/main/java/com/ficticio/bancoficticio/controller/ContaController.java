@@ -4,9 +4,7 @@ import com.ficticio.bancoficticio.exception.ClienteException;
 import com.ficticio.bancoficticio.exception.ContaException;
 import com.ficticio.bancoficticio.model.entity.Conta;
 import com.ficticio.bancoficticio.model.entity.Transacao;
-import com.ficticio.bancoficticio.repository.ClienteRepository;
 import com.ficticio.bancoficticio.repository.ContaRepository;
-import com.ficticio.bancoficticio.repository.TransacaoRepository;
 import com.ficticio.bancoficticio.service.ContaService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,15 +21,11 @@ import java.util.UUID;
 @RequestMapping("/conta")
 public class ContaController {
     private final ContaRepository contaRepository;
-    private final ClienteRepository clienteRepository;
     private final ContaService contaService;
-    private final TransacaoRepository transacaoRepository;
 
-    public ContaController(ContaRepository contaRepository, ClienteRepository clienteRepository, ContaService contaService, TransacaoRepository transacaoRepository) {
+    public ContaController(ContaRepository contaRepository, ContaService contaService) {
         this.contaRepository = contaRepository;
-        this.clienteRepository = clienteRepository;
         this.contaService = contaService;
-        this.transacaoRepository = transacaoRepository;
     }
 
     @GetMapping("/contas")
@@ -84,12 +78,12 @@ public class ContaController {
         }
     }
 
-    @PatchMapping("/{id}/deposito")
-    public ResponseEntity<Object> fazDeposito(@PathVariable UUID id,
+    @PatchMapping("/{idConta}/deposito")
+    public ResponseEntity<Object> fazDeposito(@PathVariable UUID idConta,
                                               @RequestBody Map<String, String> depositoBody){
         try {
-            contaService.fazerDeposito(id, Double.parseDouble(depositoBody.get("quantia")));
-            return ResponseEntity.status(HttpStatus.OK).body(contaRepository.findById(id));
+            contaService.fazerDeposito(idConta, Double.parseDouble(depositoBody.get("quantia")));
+            return ResponseEntity.status(HttpStatus.OK).body(contaRepository.findById(idConta));
         } catch (ClienteException.ClienteNaoLogadoException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
         } catch (ContaException.ContaNaoExisteException e) {
@@ -97,12 +91,12 @@ public class ContaController {
         }
     }
 
-    @PatchMapping("/{id}/saque")
-    public ResponseEntity<Object> fazSaque(@PathVariable UUID id,
+    @PatchMapping("/{idConta}/saque")
+    public ResponseEntity<Object> fazSaque(@PathVariable UUID idConta,
                                               @RequestBody Map<String, String> saqueBody){
         try {
-            contaService.fazerSaque(id, Double.parseDouble(saqueBody.get("quantia")));
-            return ResponseEntity.status(HttpStatus.OK).body(contaRepository.findById(id));
+            contaService.fazerSaque(idConta, Double.parseDouble(saqueBody.get("quantia")));
+            return ResponseEntity.status(HttpStatus.OK).body(contaRepository.findById(idConta));
         } catch (ClienteException.ClienteNaoLogadoException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
         } catch (ContaException.ContaNaoExisteException e) {
@@ -112,12 +106,12 @@ public class ContaController {
         }
     }
 
-    @PatchMapping("/{id}/pagamento-de-conta")
-    public ResponseEntity<Object> pagaConta(@PathVariable UUID id,
+    @PatchMapping("/{idConta}/pagamento-de-conta")
+    public ResponseEntity<Object> pagaConta(@PathVariable UUID idConta,
                                             @RequestBody Map<String, String> pagamentoBody){
         try {
-            contaService.fazerPagamento(id, Double.parseDouble(pagamentoBody.get("quantia")));
-            return ResponseEntity.status(HttpStatus.OK).body(contaRepository.findById(id));
+            contaService.fazerPagamento(idConta, Double.parseDouble(pagamentoBody.get("quantia")));
+            return ResponseEntity.status(HttpStatus.OK).body(contaRepository.findById(idConta));
         } catch (ClienteException.ClienteNaoLogadoException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
         } catch (ContaException.ContaNaoExisteException e) {
@@ -142,12 +136,12 @@ public class ContaController {
         }
     }
 
-    @PatchMapping("/{id}/pix")
-    public ResponseEntity<Object> fazPiz(@PathVariable UUID id,
+    @PatchMapping("/{idConta}/pix")
+    public ResponseEntity<Object> fazPiz(@PathVariable UUID idConta,
                                          @RequestBody Map<String, String> pixBody){
         try {
-            contaService.fazerPix(id, pixBody.get("chavePix"), Double.parseDouble(pixBody.get("quantia")));
-            return ResponseEntity.status(HttpStatus.OK).body(contaRepository.findById(id));
+            contaService.fazerPix(idConta, pixBody.get("chavePix"), Double.parseDouble(pixBody.get("quantia")));
+            return ResponseEntity.status(HttpStatus.OK).body(contaRepository.findById(idConta));
         } catch (ClienteException.ClienteNaoLogadoException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
         } catch (ContaException.ContaNaoExisteException e) {
@@ -159,12 +153,12 @@ public class ContaController {
         }
     }
 
-    @PostMapping("/{id}/pix/cadastro")
-    public ResponseEntity<Object> cadastraChavePix(@PathVariable UUID id,
-                                 @RequestBody Map<String, String> chavePixBody){
+    @PostMapping("/{idConta}/pix/cadastro")
+    public ResponseEntity<Object> cadastraChavePix(@PathVariable UUID idConta,
+                                                   @RequestBody Map<String, String> chavePixBody){
         try {
-            contaService.cadastraChavePix(id, chavePixBody.get("chavePix"));
-            return ResponseEntity.status(HttpStatus.CREATED).body(contaRepository.findById(id));
+            contaService.cadastraChavePix(idConta, chavePixBody.get("chavePix"));
+            return ResponseEntity.status(HttpStatus.CREATED).body(contaRepository.findById(idConta));
         } catch (ClienteException.ClienteNaoLogadoException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
         } catch (ContaException.ContaNaoExisteException e) {
@@ -172,11 +166,11 @@ public class ContaController {
         }
     }
 
-    @DeleteMapping("/{id}/pix/descadastro")
-    public ResponseEntity<Object> descadastraChavePix(@PathVariable UUID id){
+    @DeleteMapping("/{idConta}/pix/descadastro")
+    public ResponseEntity<Object> descadastraChavePix(@PathVariable UUID idConta){
         try {
-            contaService.descadastraChavePix(id);
-            return ResponseEntity.status(HttpStatus.CREATED).body(contaRepository.findById(id));
+            contaService.descadastraChavePix(idConta);
+            return ResponseEntity.status(HttpStatus.CREATED).body(contaRepository.findById(idConta));
         } catch (ClienteException.ClienteNaoLogadoException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
         } catch (ContaException.ContaNaoExisteException e) {
