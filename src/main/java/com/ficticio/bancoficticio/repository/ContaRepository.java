@@ -8,4 +8,5 @@ import java.util.UUID;
 
 public interface ContaRepository extends JpaRepository <Conta, UUID> {
     Conta findByCliente(Cliente cliente);
+    Conta findByChavePix(String chavePix);
 }

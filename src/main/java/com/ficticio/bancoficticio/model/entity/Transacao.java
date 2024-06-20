@@ -1,5 +1,6 @@
 package com.ficticio.bancoficticio.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UuidGenerator;
@@ -13,27 +14,33 @@ public class Transacao {
     @Id
     @UuidGenerator
     private UUID idTransacao;
-    private UUID idCliente;
+
+    private UUID idConta;
+
     private String tipo;
+
+    private double quantia;
+
+    private UUID idContaDestino;
+
     @CreationTimestamp
     @Column(updatable = false)
-    private String dataTransacao;
-    private String quantia;
-    private UUID idClienteDestino;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
+    private LocalDateTime dataTransacao;
 
     protected Transacao(){}
 
-    public Transacao(UUID idCliente, String tipo, String quantia) {
-        this.idCliente = idCliente;
+    public Transacao(UUID idConta, String tipo, double quantia) {
+        this.idConta = idConta;
         this.tipo = tipo;
         this.quantia = quantia;
     }
 
-    public Transacao(UUID idCliente, String tipo, String quantia, UUID idClienteDestino) {
-        this.idCliente = idCliente;
+    public Transacao(UUID idConta, String tipo, double quantia, UUID idContaDestino) {
+        this.idConta = idConta;
         this.tipo = tipo;
         this.quantia = quantia;
-        this.idClienteDestino = idClienteDestino;
+        this.idContaDestino = idContaDestino;
     }
 
     public UUID getIdTransacao() {
@@ -44,12 +51,12 @@ public class Transacao {
         this.idTransacao = idTransacao;
     }
 
-    public UUID getIdCliente() {
-        return idCliente;
+    public UUID getIdConta() {
+        return idConta;
     }
 
-    public void setIdCliente(UUID idCliente) {
-        this.idCliente = idCliente;
+    public void setIdConta(UUID idConta) {
+        this.idConta = idConta;
     }
 
     public String getTipo() {
@@ -60,27 +67,27 @@ public class Transacao {
         this.tipo = tipo;
     }
 
-    public String getDataTransacao() {
-        return dataTransacao;
-    }
-
-    public void setDataTransacao(String dataTransacao) {
-        this.dataTransacao = dataTransacao;
-    }
-
-    public String getQuantia() {
+    public double getQuantia() {
         return quantia;
     }
 
-    public void setQuantia(String quantia) {
+    public void setQuantia(double quantia) {
         this.quantia = quantia;
     }
 
-    public UUID getIdClienteDestino() {
-        return idClienteDestino;
+    public UUID getIdContaDestino() {
+        return idContaDestino;
     }
 
-    public void setIdClienteDestino(UUID idClienteDestino) {
-        this.idClienteDestino = idClienteDestino;
+    public void setIdContaDestino(UUID idContaDestino) {
+        this.idContaDestino = idContaDestino;
+    }
+
+    public LocalDateTime getDataTransacao() {
+        return dataTransacao;
+    }
+
+    public void setDataTransacao(LocalDateTime dataTransacao) {
+        this.dataTransacao = dataTransacao;
     }
 }

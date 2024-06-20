@@ -5,6 +5,12 @@ public class ContaException extends RuntimeException {
         super(message);
     }
 
+    public static class ContaNaoExisteException extends ContaException{
+        public ContaNaoExisteException(){
+            super("Conta não cadastrada. Peça para o cliente verificar as informações");
+        }
+    }
+
     public static class ContaSemPermissaoException extends ContaException{
         public ContaSemPermissaoException(){
             super("Nível de conta do cliente não está apta a exercer tal transação");

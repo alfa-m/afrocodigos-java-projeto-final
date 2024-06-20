@@ -9,7 +9,13 @@ public class ContaPagamento extends Conta{
 
     public ContaPagamento(Cliente cliente) {
         super(cliente);
+        tipo = "Conta Pagamento";
         limite = saldo;
         transferenciaMaxima = 4999.99;
+    }
+
+    @Override
+    public void atualizaLimite() {
+        setLimite(saldo);
     }
 }

@@ -19,6 +19,8 @@ public abstract class Conta {
     @JoinColumn(name = "cliente")
     private Cliente cliente;
 
+    protected String tipo;
+
     protected double saldo = 0.0;
 
     protected double limite;
@@ -28,7 +30,6 @@ public abstract class Conta {
     protected String chavePix;
 
     protected int saquesFeitos = 0;
-
 
     @CreationTimestamp
     @Column(updatable = false)
@@ -59,6 +60,14 @@ public abstract class Conta {
 
     public void setCliente(Cliente cliente) {
         this.cliente = cliente;
+    }
+
+    public String getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
     }
 
     public double getSaldo() {
@@ -116,4 +125,6 @@ public abstract class Conta {
     public void setDataAtualizacaoConta(LocalDateTime dataAtualizacaoConta) {
         this.dataAtualizacaoConta = dataAtualizacaoConta;
     }
+
+    public void atualizaLimite(){}
 }
