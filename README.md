@@ -4,8 +4,42 @@
 
 ## Como testar
 
-## Entidades
 
+## Entidades
+### Cliente
+Atributos
+* id - uuid
+* cpf - string
+* dataNascimento - string
+* telefone - string
+* endereco - string
+* rendaMensal - double
+* email - string
+* senha - string
+* logado - boolean
+* dataCriacao - local-date-time
+* dataAtualizacao - local-date-time
+
+### Conta
+Atributos
+* id - uuid
+* cliente - Cliente
+* tipo - string
+* saldo - double
+* limite - double
+* transferenciaMaxima - double
+* chavePix - string
+* dataCriacaoConta - local-date-time
+* dataAtualizacaoConta - local-date-time
+
+### Transacao
+Atributos
+* idTransacao - uuid
+* idConta - uuid
+* tipo - string
+* quantia - double
+* idContaDestino - uuid
+* dataTransacao - local-date-time
 
 ## Regras de negócio
 
