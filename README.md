@@ -134,6 +134,8 @@ public Transacao(UUID idConta, String tipo, double quantia, UUID idContaDestino)
 
 ## Regras de negócio
 
+(PENDENTE)
+
 ## Estrutura do projeto
 
 ```plaintext
