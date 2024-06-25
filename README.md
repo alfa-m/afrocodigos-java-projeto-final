@@ -2,7 +2,7 @@
 
 ## Descrição
 
-Projeto final do bootcamp Afrocódigos - Trilha Back-End. O projeto representa a API de uma instituição financeira, implementada em Java com Spring Boot.
+Projeto final do bootcamp Afrocódigos - Trilha Back-End. O projeto representa a API de uma instituição financeira, implementada em Java com Spring Boot e utilizando a arquitetura MSC.
 
 ## Ferramentas
 
@@ -171,23 +171,23 @@ public Transacao(UUID idConta, String tipo, double quantia, UUID idContaDestino)
         └──📄 application.properties
 ```
 
-- DataInitializer.java -
-- ClienteController.java -
-- ContaController.java -
-- TransacaoController.java -
-- ClienteException.java -
-- ContaException.java -
-- Cliente.java -
-- Conta.java -
-- ContaCorrente.java -
-- ContaPagamento.java -
-- Transacao.java -
-- ClienteRepository.java -
-- ContaRepository.java -
-- TransacaoRepository.java -
-- ClienteService.java -
-- ContaService.java -
-- BancoFicticioApplication.java -
+- DataInitializer.java - Inicializa e conecta ao banco de dados
+- ClienteController.java - Controller da classe Cliente. Relaciona as rotas de requisições HTTP relacionadas à classe Cliente.
+- ContaController.java - Controller da classe Conta. Relaciona as rotas de requisições HTTP relacionadas à classe Conta.
+- TransacaoController.java - Controller da classe Transacao. Relaciona as rotas de requisições HTTP relacionadas à classe Transacao.
+- ClienteException.java - Tratamento de exceções da classe Cliente.
+- ContaException.java - Tratamento de exceções da classe Conta.
+- Cliente.java - Classe da entidade Cliente.
+- Conta.java - Classe da entidade Conta.
+- ContaCorrente.java - Classe da entidade ContaCorrente. Subclasse da classe Conta.
+- ContaPagamento.java - Classe da entidade ContaPagamento. Subclasse da classe Conta.
+- Transacao.java - Classe da entidade Transacao.
+- ClienteRepository.java - Repositório de dados de instâncias da classe Cliente.
+- ContaRepository.java - Repositório de dados de instâncias da classe Conta.
+- TransacaoRepository.java - Repositório de dados de instâncias da classe Transacao.
+- ClienteService.java - Implementação das regras de negócio relacionadas a entidade Cliente.
+- ContaService.java - Implementação das regras de negócio relacionadas a entidade Conta.
+- BancoFicticioApplication.java - Aplicação Spring Boot.
 
 ## Rotas da API
 
