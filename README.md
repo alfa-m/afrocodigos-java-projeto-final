@@ -386,8 +386,6 @@ public Transacao(UUID idConta, String tipo, double quantia, UUID idContaDestino)
 }
 ```
 
-Operação de cadastro da chave pix.
-
 #### [POST] /{idConta}/pix/descadastro
 
 - **Descrição**: Operação de descadastro da chave pix. Requer no path param o id da conta e, no body, o envio da chave pix a ser cadastrada.
