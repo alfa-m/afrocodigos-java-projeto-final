@@ -38,7 +38,7 @@ Representa o cliente do banco.
 
 #### Construtor
 
-```
+```plaintext
 public Cliente(String cpf, String nome, String dataNascimento, String telefone, String endereco, double rendaMensal, String email, String senha)
 ```
 
@@ -66,7 +66,7 @@ Representa a conta bancária do cliente.
 
 #### Construtor
 
-```
+```plaintext
 public Conta(Cliente cliente)
 ```
 
@@ -104,13 +104,13 @@ Representa cada transação bancária realizada por uma conta.
 
 #### Construtor
 
-```
+```plaintext
 public Transacao(UUID idConta, String tipo, double quantia)
 ```
 
 ou
 
-```
+```plaintext
 public Transacao(UUID idConta, String tipo, double quantia, UUID idContaDestino)
 ```
 
@@ -205,31 +205,84 @@ public Transacao(UUID idConta, String tipo, double quantia, UUID idContaDestino)
 
 #### [POST] /cadastro
 
-Operação de cadastro de novo cliente.
+- **Descrição**: Operação de cadastro de novo cliente. Requer o envio dos dados do cliente pelo body.
+
+- **Exemplo de body**:
+
+```json
+{
+  "cpf": "123.456.789-00",
+  "nome": "José Maria",
+  "dataNascimento": "01/01/2000",
+  "telefone": "1234-5678",
+  "endereco": "Endereço do José, 001",
+  "rendaMensal": "3600.00",
+  "email": "josemaria@email.com",
+  "senha": "senha123"
+}
+```
 
 #### [DELETE] /{id}/encerramento-de-conta
 
-Operação de encerrar a conta bancária.
+- **Descrição**: Operação de encerrar a conta bancária. Requer no path param o id do cliente que deseja exlcuir a conta.
 
 #### [PATCH] /login
 
-Operação de login.
+- **Descrição**: Operação de login. Requer o envio do CPF e da senha do cliente pelo body.
+
+- **Exemplo de body**:
+
+```json
+{
+  "cpf": "123.456.789-00",
+  "senha": "senha456"
+}
+```
 
 #### [PATCH] /redefinir-senha
 
-Operação de redefinir de senha.
+- **Descrição**: Operação de redefinir de senha. Requer o envio do CPF, do e-mail e da nova senha do cliente pelo body.
+
+- **Exemplo de body**:
+
+```json
+{
+  "cpf": "123.456.789-00",
+  "email": "josemaria@email.com",
+  "senha": "senha123"
+}
+```
 
 #### [PATCH] /{id}/logoff
 
-Operação de logoff.
+- **Descrição**: Operação de logoff. Requer no path param o id do cliente que deseja fazer o logoff.
 
 #### [PATCH] /{id}/upgrade-de-conta
 
-Operação de atualização do tipo de conta bancária.
+- **Descrição**: Operação de atualização do tipo de conta bancária. Requer no path param o id do cliente que deseja fazer o upgrade de conta.
 
 #### [PUT] /{id}/atualizar-cadastro
 
-Operação de atualização dos dados cadastrais.
+- **Descrição**: Operação de atualização dos dados cadastrais. Requer o envio dos dados atualizados do cliente pelo body.
+
+- **Exemplo de body**:
+
+```json
+{
+  "id": "d3ea0477-6b4e-4b65-942a-4e81bae99f78",
+  "cpf": "123.456.789-00",
+  "nome": "José Maria",
+  "dataNascimento": "01/01/2000",
+  "telefone": "1234-5678",
+  "endereco": "Endereço do José, 001",
+  "rendaMensal": "3600.00",
+  "email": "josemaria@email.com",
+  "senha": "senha123",
+  "logado": true,
+  "dataCriacao": "20-06-2024 20:26:17",
+  "dataAtualizacao": "20-06-2024 20:26:17"
+}
+```
 
 ### Rotas da área de conta bancária (/conta)
 
