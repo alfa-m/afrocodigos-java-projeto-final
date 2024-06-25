@@ -171,9 +171,37 @@ public Transacao(UUID idConta, String tipo, double quantia, UUID idContaDestino)
         └──📄 application.properties
 ```
 
+- DataInitializer.java -
+- ClienteController.java -
+- ContaController.java -
+- TransacaoController.java -
+- ClienteException.java -
+- ContaException.java -
+- Cliente.java -
+- Conta.java -
+- ContaCorrente.java -
+- ContaPagamento.java -
+- Transacao.java -
+- ClienteRepository.java -
+- ContaRepository.java -
+- TransacaoRepository.java -
+- ClienteService.java -
+- ContaService.java -
+- BancoFicticioApplication.java -
+
 ## Rotas da API
 
 ### Rotas da área do cliente (/cliente)
+
+| Método | Rota                                | Função                                            |
+| ------ | ----------------------------------- | ------------------------------------------------- |
+| POST   | /cliente/cadastro                   | Operação de cadastro de novo cliente              |
+| DELETE | /cliente/{id}/encerramento-de-conta | Operação de encerrar a conta bancária             |
+| PATCH  | /cliente/login                      | Operação de login                                 |
+| PATCH  | /cliente/redefinir-senha            | Operação de redefinir de senha                    |
+| PATCH  | /cliente/{id}/logoff                | Operação de logoff                                |
+| PATCH  | /cliente/{id}/upgrade-de-conta      | Operação de atualização do tipo de conta bancária |
+| PUT    | /cliente/{id}/atualizar-cadastro    | Operação de atualização dos dados cadastrais      |
 
 #### [POST] /cadastro
 
@@ -204,6 +232,9 @@ Operação de atualização do tipo de conta bancária.
 Operação de atualização dos dados cadastrais.
 
 ### Rotas da área de conta bancária (/conta)
+
+| Método | Rota | Função |
+| ------ | ---- | ------ |
 
 #### [GET] /{idCliente}
 
@@ -247,6 +278,9 @@ Operação de descadastro da chave pix.
 
 ### Rotas da área de transações (/transacao)(Espaço restrito aos operários do banco)
 
+| Método | Rota | Função |
+| ------ | ---- | ------ |
+
 #### [GET] /transacoes
 
 Operação de listar todas as operações realizadas pelo banco.
@@ -272,6 +306,9 @@ Operação de listar todos os pagamentos realizados pelo banco.
 Operação de listar todos os pix realizados pelo banco.
 
 ### Demais rotas restritas aos operários do banco
+
+| Método | Rota | Função |
+| ------ | ---- | ------ |
 
 #### [GET] /cliente/clientes
 
