@@ -136,6 +136,41 @@ public Transacao(UUID idConta, String tipo, double quantia, UUID idContaDestino)
 
 ## Estrutura do projeto
 
+```plaintext
+📂src
+└──📂 main
+    ├──📂 java
+    │   └──📂 com
+    │       └──📂 ficticio
+    │           └──📂 bancoficticio
+    │               ├──📁 config
+    |                   └──📄 DataInitializer.java
+    │               ├──📁 controller
+    |                   ├──📄 ClienteController.java
+    |                   ├──📄 ContaController.java
+    |                   └──📄 TransacaoController.java
+    │               ├──📁 exception
+    |                   ├──📄 ClienteException.java
+    |                   └──📄 ContaException.java
+    │               └──📂 model
+    │                   └──📁 entity
+    |                       ├──📄 Cliente.java
+    |                       ├──📄 Conta.java
+    |                       ├──📄 ContaCorrente.java
+    |                       ├──📄 ContaPagamento.java
+    |                       └──📄 Transacao.java
+    │               ├──📁 repository
+    |                   ├──📄 ClienteRepository.java
+    |                   ├──📄 ContaRepository.java
+    |                   └──📄 TransacaoRepository.java
+    │               ├──📁 service
+    |                   ├──📄 ClienteService.java
+    |                   └──📄 ContaService.java
+    │               └──📄 BancoFicticioApplication.java
+    └──📂 resources
+        └──📄 application.properties
+```
+
 ## Rotas da API
 
 ### Rotas da área do cliente (/cliente)
