@@ -424,7 +424,7 @@ public Transacao(UUID idConta, String tipo, double quantia, UUID idContaDestino)
 
 #### [GET] /transferencias
 
-- **Descrição**: Operação de listar todas as transferencias realizadas pelo banco. Pode ser adicionado o query param com a id da conta para filtrar o resultado.
+- **Descrição**: Operação de listar todas as transferências realizadas pelo banco. Pode ser adicionado o query param com a id da conta para filtrar o resultado.
 
 - **Exemplo de request com query param**:
   `/transacao/transferencias?id=40b43186-93d9-4a1c-90de-382edc02e30b`
