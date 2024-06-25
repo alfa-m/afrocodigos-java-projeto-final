@@ -286,77 +286,146 @@ public Transacao(UUID idConta, String tipo, double quantia, UUID idContaDestino)
 
 ### Rotas da área de conta bancária (/conta)
 
-| Método | Rota | Função |
-| ------ | ---- | ------ |
+| Método | Rota                                 | Função                                                          |
+| ------ | ------------------------------------ | --------------------------------------------------------------- |
+| GET    | /conta/idCliente                     | Operação de verificação dos dados da conta atrelada ao usuário. |
+| GET    | /conta/{idConta}/saldo               | Operação de verificação de saldo.                               |
+| GET    | /conta/{idConta}/extrato             | Operação de verificação de extrato mensal.                      |
+| PATCH  | /conta/{idConta}/deposito            | Operação de depósito bancário.                                  |
+| PATCH  | /conta/{idConta}/saque               | Operação de saque.                                              |
+| PATCH  | /conta/{idConta}/pagamento-de-conta  | Operação de pagamento de conta.                                 |
+| PATCH  | /conta/{idContaOrigem}/transferencia | Operação de transferência bancária.                             |
+| PATCH  | /conta/{idConta}/pix                 | Operação de transferência por pix.                              |
+| POST   | /conta/{idConta}/pix/cadastro        | Operação de cadastro da chave pix.                              |
+| POST   | /conta/{idConta}/pix/descadastro     | Operação de descadastro da chave pix.                           |
 
 #### [GET] /{idCliente}
 
-Operação de verificação dos dados da conta atrelada ao usuário.
+- **Descrição**: Operação de verificação dos dados da conta atrelada ao usuário. Requer no path param o id do cliente que deseja verificar as informações da conta.
 
 #### [GET] /{idConta}/saldo
 
-Operação de verificação de saldo.
+- **Descrição**: Operação de verificação de saldo. Requer no path param o id da conta que deseja verificar o saldo.
 
 #### [GET] /{idConta}/extrato
 
-Operação de verificação de extrato mensal.
+- **Descrição**: Operação de verificação de extrato mensal. Requer no path param o id da conta que deseja verificar o extrato.
 
 #### [PATCH] /{idConta}/deposito
 
-Operação de depósito bancário.
+- **Descrição**: Operação de depósito bancário. Requer no path param o id da conta e, no body, o envio da quantia a ser depositada.
+
+- **Exemplo de body**:
+
+```json
+{
+  "quantia": "5000.00"
+}
+```
 
 #### [PATCH] /{idConta}/saque
 
-Operação de saque.
+- **Descrição**: Operação de saque. Requer no path param o id da conta e, no body, o envio da quantia a ser sacada.
+
+- **Exemplo de body**:
+
+```json
+{
+  "quantia": "100.00"
+}
+```
 
 #### [PATCH] /{idConta}/pagamento-de-conta
 
-Operação de pagamento de conta.
+- **Descrição**: Operação de pagamento de conta. Requer no path param o id da conta e, no body, o envio da quantia a ser paga. Idealmente o body também deveria receber o código de barras da conta, mas o mesmo não será utilizado nesta aplicação.
+
+- **Exemplo de body**:
+
+```json
+{
+  "boletoBancario": "código-do-boleto-bancário",
+  "quantia": "20.00"
+}
+```
 
 #### [PATCH] /{idContaOrigem}/transferencia
 
-Operação de transferência bancária.
+- **Descrição**: Operação de transferência bancária. Requer no path param o id da conta realizandoo a transferência e, no body, o envio do id da conta recebendo a transferência e da quantia a ser transferida.
+
+- **Exemplo de body**:
+
+```json
+{
+  "idContaDestino": "40b43186-93d9-4a1c-90de-382edc02e30b",
+  "quantia": "100.00"
+}
+```
 
 #### [PATCH] /{idConta}/pix
 
-Operação de transferência por pix.
+- **Descrição**: Operação de transferência por pix. Requer no path param o id da conta e, no body, o envio da chave pix de destino e a quantia a ser transferida.
+
+- **Exemplo de body**:
+
+```json
+{
+  "chavePix": "batatafrita",
+  "quantia": "50.00"
+}
+```
 
 #### [POST] /{idConta}/pix/cadastro
+
+- **Descrição**: Operação de cadastro da chave pix. Requer no path param o id da conta e, no body, o envio da chave pix a ser cadastrada.
+
+- **Exemplo de body**:
+
+```json
+{
+  "chavePix": "bananafrita"
+}
+```
 
 Operação de cadastro da chave pix.
 
 #### [POST] /{idConta}/pix/descadastro
 
-Operação de descadastro da chave pix.
+- **Descrição**: Operação de descadastro da chave pix. Requer no path param o id da conta e, no body, o envio da chave pix a ser cadastrada.
 
 ### Rotas da área de transações (/transacao)(Espaço restrito aos operários do banco)
 
-| Método | Rota | Função |
-| ------ | ---- | ------ |
+| Método | Rota                      | Função                                                            |
+| ------ | ------------------------- | ----------------------------------------------------------------- |
+| GET    | /transacao/transacoes     | Operação de listar todas as operações realizadas pelo banco.      |
+| GET    | /transacao/depositos      | Operação de listar todos os depósitos realizados pelo banco.      |
+| GET    | /transacao/saques         | Operação de listar todos os saques realizados pelo banco.         |
+| GET    | /transacao/transferencias | Operação de listar todas as transferências realizadas pelo banco. |
+| GET    | /transacao/pagamentos     | Operação de listar todos os pagamentos realizados pelo banco.     |
+| GET    | /transacao/pix            | Operação de listar todos os pix realizados pelo banco.            |
 
 #### [GET] /transacoes
 
-Operação de listar todas as operações realizadas pelo banco.
+- **Descrição**: Operação de listar todas as operações realizadas pelo banco.
 
 #### [GET] /depositos
 
-Operação de listar todos os depositos realizados pelo banco.
+- **Descrição**: Operação de listar todos os depositos realizados pelo banco.
 
 #### [GET] /saques
 
-Operação de listar todos os saques realizados pelo banco.
+- **Descrição**: Operação de listar todos os saques realizados pelo banco.
 
 #### [GET] /transferencias
 
-Operação de listar todas as transferencias realizadas pelo banco.
+- **Descrição**: Operação de listar todas as transferencias realizadas pelo banco.
 
 #### [GET] /pagamentos
 
-Operação de listar todos os pagamentos realizados pelo banco.
+- **Descrição**: Operação de listar todos os pagamentos realizados pelo banco.
 
 #### [GET] /pix
 
-Operação de listar todos os pix realizados pelo banco.
+- **Descrição**: Operação de listar todos os pix realizados pelo banco.
 
 ### Demais rotas restritas aos operários do banco
 
