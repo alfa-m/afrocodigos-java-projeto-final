@@ -405,37 +405,57 @@ Operação de cadastro da chave pix.
 
 #### [GET] /transacoes
 
-- **Descrição**: Operação de listar todas as operações realizadas pelo banco.
+- **Descrição**: Operação de listar todas as operações realizadas pelo banco. Pode ser adicionado o query param com a id da conta para filtrar o resultado.
+
+- **Exemplo de request com query param**:
+  `/transacao/transacoes?id=40b43186-93d9-4a1c-90de-382edc02e30b`
 
 #### [GET] /depositos
 
-- **Descrição**: Operação de listar todos os depositos realizados pelo banco.
+- **Descrição**: Operação de listar todos os depositos realizados pelo banco. Pode ser adicionado o query param com a id da conta para filtrar o resultado.
+
+- **Exemplo de request com query param**:
+  `/transacao/depositos?id=40b43186-93d9-4a1c-90de-382edc02e30b`
 
 #### [GET] /saques
 
-- **Descrição**: Operação de listar todos os saques realizados pelo banco.
+- **Descrição**: Operação de listar todos os saques realizados pelo banco. Pode ser adicionado o query param com a id da conta para filtrar o resultado.
+
+- **Exemplo de request com query param**:
+  `/transacao/saques?id=40b43186-93d9-4a1c-90de-382edc02e30b`
 
 #### [GET] /transferencias
 
-- **Descrição**: Operação de listar todas as transferencias realizadas pelo banco.
+- **Descrição**: Operação de listar todas as transferencias realizadas pelo banco. Pode ser adicionado o query param com a id da conta para filtrar o resultado.
+
+- **Exemplo de request com query param**:
+  `/transacao/transferencias?id=40b43186-93d9-4a1c-90de-382edc02e30b`
 
 #### [GET] /pagamentos
 
-- **Descrição**: Operação de listar todos os pagamentos realizados pelo banco.
+- **Descrição**: Operação de listar todos os pagamentos realizados pelo banco. Pode ser adicionado o query param com a id da conta para filtrar o resultado.
+
+- **Exemplo de request com query param**:
+  `/transacao/pagamentos?id=40b43186-93d9-4a1c-90de-382edc02e30b`
 
 #### [GET] /pix
 
-- **Descrição**: Operação de listar todos os pix realizados pelo banco.
+- **Descrição**: Operação de listar todos os pix realizados pelo banco. Pode ser adicionado o query param com a id da conta para filtrar o resultado.
+
+- **Exemplo de request com query param**:
+  `/transacao/pix?id=40b43186-93d9-4a1c-90de-382edc02e30b`
 
 ### Demais rotas restritas aos operários do banco
 
-| Método | Rota | Função |
-| ------ | ---- | ------ |
+| Método | Rota              | Função                                            |
+| ------ | ----------------- | ------------------------------------------------- |
+| GET    | /cliente/clientes | Operação de listar todos os clientes cadastrados. |
+| GET    | /conta/contas     | Operação de listar todas as contas cadastradas.   |
 
 #### [GET] /cliente/clientes
 
-Operação de listar todos os clientes cadastrados.
+- **Descrição**: Operação de listar todos os clientes cadastrados.
 
 #### [GET] /conta/contas
 
-Operação de listar todas as contas cadastradas.
+- **Descrição**: Operação de listar todas as contas cadastradas.
