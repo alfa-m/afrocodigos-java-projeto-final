@@ -494,13 +494,8 @@ A aplicação do banco foi criada seguindo as seguintes regras de negócio:
 
 | Método | Rota              | Função                                            |
 | ------ | ----------------- | ------------------------------------------------- |
-| GET    |                   | Página inicial da API                             |
 | GET    | /cliente/clientes | Operação de listar todos os clientes cadastrados. |
 | GET    | /conta/contas     | Operação de listar todas as contas cadastradas.   |
-
-#### [GET]
-
-- **Descrição**: Página inicial da API .
 
 #### [GET] /cliente/clientes
 
