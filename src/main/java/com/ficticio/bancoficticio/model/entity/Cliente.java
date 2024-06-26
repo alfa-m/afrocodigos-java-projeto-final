@@ -82,7 +82,6 @@ public class Cliente {
         this.rendaMensal = rendaMensal;
         this.email = email;
         this.senha = senha;
-        System.out.println("Cliente criado com sucesso!");
     }
 
     public UUID getId() {
