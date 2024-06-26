@@ -17,7 +17,7 @@ Projeto final do bootcamp Afrocódigos, realizado pela [Olabi](https://www.olabi
 
 ### Testando a API online
 
-Para testar a API, acesse [aqui](ec2-34-230-37-196.compute-1.amazonaws.com).
+Para testar a API, acesse [aqui](http://ec2-44-202-244-96.compute-1.amazonaws.com:8080/swagger-ui/index.html#/).
 
 Talvez o servidor não esteja conectado no momento de acesso. Nesse caso, por favor, abra uma issue.
 
@@ -492,11 +492,11 @@ A aplicação do banco foi criada seguindo as seguintes regras de negócio:
 
 | Método | Rota              | Função                                            |
 | ------ | ----------------- | ------------------------------------------------- |
-| GET    |           | Página inicial da API                             |
+| GET    |                   | Página inicial da API                             |
 | GET    | /cliente/clientes | Operação de listar todos os clientes cadastrados. |
 | GET    | /conta/contas     | Operação de listar todas as contas cadastradas.   |
 
-#### [GET] 
+#### [GET]
 
 - **Descrição**: Página inicial da API .
 
