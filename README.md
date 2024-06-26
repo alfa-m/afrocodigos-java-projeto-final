@@ -4,6 +4,8 @@
 
 Projeto final do bootcamp Afrocódigos, realizado pela [Olabi](https://www.olabi.org.br/) em parceria com a [J.P. Morgan](https://www.jpmorgan.com.br/pt/about-us), Trilha Back-End. O projeto representa a API de uma instituição financeira, implementada em Java com Spring Boot e utilizando a arquitetura MSC.
 
+<img src="/API Banco Fictício.gif">
+
 ## Ferramentas
 
 - [Java 17](https://www.oracle.com/br/java/technologies/downloads/#java17)
