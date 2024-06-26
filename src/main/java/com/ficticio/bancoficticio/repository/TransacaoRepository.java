@@ -11,4 +11,6 @@ public interface TransacaoRepository extends JpaRepository<Transacao, UUID> {
     List<Transacao> findTransacaosByTipoContainingIgnoreCase(String tipo);
     List<Transacao> findTransacaosByIdContaIsAndDataTransacaoIsBetween(UUID idConta, LocalDateTime dataInicio, LocalDateTime dataFim);
     List<Transacao> findTransacaosByTipoContainingIgnoreCaseAndIdContaIsAndDataTransacaoIsBetween(String tipo, UUID idConta, LocalDateTime dataInicio, LocalDateTime dataFim);
+    List<Transacao> findTransacaosByIdContaIs(UUID idConta);
+    List<Transacao> findTransacaosByTipoContainingIgnoreCaseAndIdContaIs(String tipo, UUID idConta);
 }
