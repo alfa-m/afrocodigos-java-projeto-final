@@ -6,12 +6,12 @@ Projeto final do bootcamp Afrocódigos, realizado pela [Olabi](https://www.olabi
 
 ## Ferramentas
 
-- Java 17
-- Spring Boot 3
-- Maven
-- PostgreSQL 16
-- Insomnia
-- IDE
+- [Java 17](https://www.oracle.com/br/java/technologies/downloads/#java17)
+- [Spring Boot 3](https://spring.io/projects/spring-boot)
+- [Maven](https://maven.apache.org/download.cgi)
+- [PostgreSQL 16](https://www.postgresql.org/download/)
+- [Insomnia](https://insomnia.rest/download)
+- [IDE](https://code.visualstudio.com/download)
 
 ## Como testar
 
@@ -27,8 +27,8 @@ Os passos necessários para testar localmente são:
 
 - Instalar as ferramentas necessárias
 - Clonar o projeto
-- Executar o arquivo ["BancoFicticioApplication.java"](/src/main/java/com/ficticio/bancoficticio/BancoFicticioApplication.java) na IDE
-- Testar as rotas da API (rotas listadas [aqui](#rotas-da-api))
+- Executar o arquivo [BancoFicticioApplication.java](/src/main/java/com/ficticio/bancoficticio/BancoFicticioApplication.java) na IDE
+- Testar as rotas da API (rotas listadas [aqui](#rotas-da-api) e json com requisições disponível [aqui](/rotas_insomnia/))
 
 ## Entidades
 
@@ -44,17 +44,17 @@ public Cliente(String cpf, String nome, String dataNascimento, String telefone, 
 
 #### Atributos
 
-- id (UUID) - ID do Cliente
-- cpf (String) - CPF do Cliente
-- dataNascimento (String) - Data de nascimento do Cliente
-- telefone (String) - Número de telefone do Cliente
-- endereco (String) - Endereço do Cliente
-- rendaMensal (double) - Valor da renda mensal do Cliente
-- email (String) - E-mail do Cliente
-- senha (String) - Senha da conta do Cliente
-- logado (boolean) - Status de login do Cliente
-- dataCriacao (LocalDateTime) - Data e horário da criação da instância de Cliente
-- dataAtualizacao (LocalDateTime) - Data e horário da última modificação feita na instância de Cliente
+- **id** (UUID) - ID do Cliente
+- **cpf** (String) - CPF do Cliente
+- **dataNascimento** (String) - Data de nascimento do Cliente
+- **telefone** (String) - Número de telefone do Cliente
+- **endereco** (String) - Endereço do Cliente
+- **rendaMensal** (double) - Valor da renda mensal do Cliente
+- **email** (String) - E-mail do Cliente
+- **senha** (String) - Senha da conta do Cliente
+- **logado** (boolean) - Status de login do Cliente
+- **dataCriacao** (LocalDateTime) - Data e horário da criação da instância de Cliente
+- **dataAtualizacao** (LocalDateTime) - Data e horário da última modificação feita na instância de Cliente
 
 #### Métodos
 
@@ -72,20 +72,20 @@ public Conta(Cliente cliente)
 
 #### Atributos
 
-- id (UUID) - ID da Conta (seria o equivalente ao nº da agência + nº da conta)
-- cliente (Cliente) - Entidade cliente associada à Conta
-- tipo (String) - Tipo da Conta
-- saldo (double) - Saldo da Conta
-- limite (double) - Limite da Conta
-- transferenciaMaxima (double) - Valor de transferência máxima permitida para esta Conta
-- chavePix (String) - Valor da chave pix da Conta
-- dataCriacaoConta (LocalDateTime) - Data e horário da criação da instância de Conta
-- dataAtualizacaoConta (LocalDateTime) - Data e horário da última modificação feita na instância de Conta
+- **id** (UUID) - ID da Conta (seria o equivalente ao nº da agência + nº da conta)
+- **cliente** (Cliente) - Entidade cliente associada à Conta
+- **tipo** (String) - Tipo da Conta
+- **saldo** (double) - Saldo da Conta
+- **limite** (double) - Limite da Conta
+- **transferenciaMaxima** (double) - Valor de transferência máxima permitida para esta Conta
+- **chavePix** (String) - Valor da chave pix da Conta
+- **dataCriacaoConta** (LocalDateTime) - Data e horário da criação da instância de Conta
+- **dataAtualizacaoConta** (LocalDateTime) - Data e horário da última modificação feita na instância de Conta
 
 #### Métodos
 
 - Getters e setters
-- atualizaLimite() - Método utilizado para atualizar o valor do atributo limite após cada transação bancária
+- **atualizaLimite()** - Método utilizado para atualizar o valor do atributo limite após cada transação bancária
 
 #### Subclasses
 
@@ -116,17 +116,17 @@ public Transacao(UUID idConta, String tipo, double quantia, UUID idContaDestino)
 
 #### Atributos
 
-- idTransacao (UUID) - ID da Transação
-- idConta (UUID) - ID da Conta realizando a Transação
-- tipo (String) - Tipo da Transação
+- **idTransacao** (UUID) - ID da Transação
+- **idConta** (UUID) - ID da Conta realizando a Transação
+- **tipo** (String) - Tipo da Transação
   - "depósito"
   - "saque"
   - "pagamento de conta"
   - "transferência bancária"
   - "pix"
-- quantia (double) - Valor da quantia sendo movimentada na Transação
-- idContaDestino (UUID) - ID da Conta envolvida na Transação
-- dataTransacao (LocalDateTime) - Data e horário da criação da instância de Transação
+- **quantia** (double) - Valor da quantia sendo movimentada na Transação
+- **idContaDestino** (UUID) - ID da Conta envolvida na Transação
+- **dataTransacao** (LocalDateTime) - Data e horário da criação da instância de Transação
 
 #### Métodos
 
