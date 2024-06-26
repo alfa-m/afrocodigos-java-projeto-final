@@ -188,28 +188,28 @@ A aplicação do banco foi criada seguindo as seguintes regras de negócio:
     │       └──📂 ficticio
     │           └──📂 bancoficticio
     │               ├──📁 config
-    |                   └──📄 DataInitializer.java
+    │                   └──📄 DataInitializer.java
     │               ├──📁 controller
-    |                   ├──📄 ClienteController.java
-    |                   ├──📄 ContaController.java
-    |                   └──📄 TransacaoController.java
+    │                   ├──📄 ClienteController.java
+    │                   ├──📄 ContaController.java
+    │                   └──📄 TransacaoController.java
     │               ├──📁 exception
-    |                   ├──📄 ClienteException.java
-    |                   └──📄 ContaException.java
+    │                   ├──📄 ClienteException.java
+    │                   └──📄 ContaException.java
     │               └──📂 model
     │                   └──📁 entity
-    |                       ├──📄 Cliente.java
-    |                       ├──📄 Conta.java
-    |                       ├──📄 ContaCorrente.java
-    |                       ├──📄 ContaPagamento.java
-    |                       └──📄 Transacao.java
+    │                       ├──📄 Cliente.java
+    │                       ├──📄 Conta.java
+    │                       ├──📄 ContaCorrente.java
+    │                       ├──📄 ContaPagamento.java
+    │                       └──📄 Transacao.java
     │               ├──📁 repository
-    |                   ├──📄 ClienteRepository.java
-    |                   ├──📄 ContaRepository.java
-    |                   └──📄 TransacaoRepository.java
+    │                   ├──📄 ClienteRepository.java
+    │                   ├──📄 ContaRepository.java
+    │                   └──📄 TransacaoRepository.java
     │               ├──📁 service
-    |                   ├──📄 ClienteService.java
-    |                   └──📄 ContaService.java
+    │                   ├──📄 ClienteService.java
+    │                   └──📄 ContaService.java
     │               └──📄 BancoFicticioApplication.java
     └──📂 resources
         └──📄 application.properties
