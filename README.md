@@ -2,7 +2,7 @@
 
 ## Descrição
 
-Projeto final do bootcamp Afrocódigos - Trilha Back-End. O projeto representa a API de uma instituição financeira, implementada em Java com Spring Boot e utilizando a arquitetura MSC.
+Projeto final do bootcamp Afrocódigos, realizado pela [Olabi](https://www.olabi.org.br/) em parceria com a [J.P. Morgan](https://www.jpmorgan.com.br/pt/about-us), Trilha Back-End. O projeto representa a API de uma instituição financeira, implementada em Java com Spring Boot e utilizando a arquitetura MSC.
 
 ## Ferramentas
 
@@ -27,7 +27,7 @@ Os passos necessários para testar localmente são:
 
 - Instalar as ferramentas necessárias
 - Clonar o projeto
-- Executar o arquivo "BancoFicticioApplication.java"
+- Executar o arquivo ["BancoFicticioApplication.java"](/src/main/java/com/ficticio/bancoficticio/BancoFicticioApplication.java) na IDE
 - Testar as rotas da API (rotas listadas [aqui](#rotas-da-api))
 
 ## Entidades
@@ -134,7 +134,47 @@ public Transacao(UUID idConta, String tipo, double quantia, UUID idContaDestino)
 
 ## Regras de negócio
 
-(PENDENTE)
+A aplicação do banco foi criada seguindo as seguintes regras de negócio:
+
+- O cliente deverá realizar seu cadastro fornecendo as seguintes informações:
+  - CPF
+  - Nome
+  - Data de nascimento
+  - Telefone
+  - Endereço
+  - Renda mensal
+  - E-mail
+  - Senha para acessar a conta
+- A partir do valor de renda mensal, o cliente será associado a um tipo de conta
+  - Conta Pagamento liberada para pessoas com renda mensal abaixo de R$ 2.900,00
+  - Conta Corrente liberada para pessoas com renda mensal a partir de R$ 2.900,00
+- O cliente só poderá realizar qualquer operação de transação bancária ou atualização cadastral se tiver realizado o login no sistema
+- O login do cliente é feito através do fornecimento do CPF e da senha do cliente
+- Caso o cliente atualize o valor de renda mensal a partir de R$ 2.900,00, ele poderá realizar o upgrade de conta (de Conta Pagamento para Conta Corrente)
+- Características comuns a todos os tipos de conta:
+  - Acesso a todas as transações bancárias
+  - 4 saques mensais gratuitos. A partir do 5° saque é cobrada uma taxa de R$ 6,50 por operação
+- Características específicas da Conta Pagamento:
+  - Transferências bancárias limitadas até R$ 4.999,99
+  - Sem acesso ao cheque especial
+  - Limite será igual ao saldo atual
+- Características específicas da Conta Corrente:
+  - Sem limite de transferências bancárias
+  - Acesso ao cheque especial equivalente a 10% da renda mensal
+  - Limite será igual ao saldo atual acrescido do cheque especial
+- Transações disponíveis:
+  - Depósito
+  - Saque
+  - Pagamento de conta
+  - Transferência bancária
+  - Pix
+- As transações de saque, transferência, pagamento e pix serão validadas conforme o limite atual da conta
+- Demais funções disponíveis aos clientes:
+  - Ver saldo atual
+  - Acessar extrato mensal
+  - Cadastrar e descadastrar chave pix
+  - Atualizar dados cadastrais (telefone, endereço, renda mensal, e-mail, senha)
+  - Encerrar conta
 
 ## Estrutura do projeto
 
@@ -173,23 +213,23 @@ public Transacao(UUID idConta, String tipo, double quantia, UUID idContaDestino)
         └──📄 application.properties
 ```
 
-- DataInitializer.java - Inicializa e conecta ao banco de dados
-- ClienteController.java - Controller da classe Cliente. Relaciona as rotas de requisições HTTP relacionadas à classe Cliente.
-- ContaController.java - Controller da classe Conta. Relaciona as rotas de requisições HTTP relacionadas à classe Conta.
-- TransacaoController.java - Controller da classe Transacao. Relaciona as rotas de requisições HTTP relacionadas à classe Transacao.
-- ClienteException.java - Tratamento de exceções da classe Cliente.
-- ContaException.java - Tratamento de exceções da classe Conta.
-- Cliente.java - Classe da entidade Cliente.
-- Conta.java - Classe da entidade Conta.
-- ContaCorrente.java - Classe da entidade ContaCorrente. Subclasse da classe Conta.
-- ContaPagamento.java - Classe da entidade ContaPagamento. Subclasse da classe Conta.
-- Transacao.java - Classe da entidade Transacao.
-- ClienteRepository.java - Repositório de dados de instâncias da classe Cliente.
-- ContaRepository.java - Repositório de dados de instâncias da classe Conta.
-- TransacaoRepository.java - Repositório de dados de instâncias da classe Transacao.
-- ClienteService.java - Implementação das regras de negócio relacionadas a entidade Cliente.
-- ContaService.java - Implementação das regras de negócio relacionadas a entidade Conta.
-- BancoFicticioApplication.java - Aplicação Spring Boot.
+- [**DataInitializer.java**](/src/main/java/com/ficticio/bancoficticio/config/DataInitializer.java) - Inicializa e conecta ao banco de dados
+- [**ClienteController.java**](/src/main/java/com/ficticio/bancoficticio/controller/ClienteController.java) - Controller da classe Cliente. Relaciona as rotas de requisições HTTP relacionadas à classe Cliente.
+- [**ContaController.java**](/src/main/java/com/ficticio/bancoficticio/controller/ContaController.java) - Controller da classe Conta. Relaciona as rotas de requisições HTTP relacionadas à classe Conta.
+- [**TransacaoController.java**](/src/main/java/com/ficticio/bancoficticio/controller/TransacaoController.java) - Controller da classe Transacao. Relaciona as rotas de requisições HTTP relacionadas à classe Transacao.
+- [**ClienteException.java**](/src/main/java/com/ficticio/bancoficticio/exception/ClienteException.java) - Tratamento de exceções da classe Cliente.
+- [**ContaException.java**](/src/main/java/com/ficticio/bancoficticio/exception/ContaException.java) - Tratamento de exceções da classe Conta.
+- [**Cliente.java**](/src/main/java/com/ficticio/bancoficticio/model/entity/Cliente.java) - Classe da entidade Cliente.
+- [**Conta.java**](/src/main/java/com/ficticio/bancoficticio/model/entity/Conta.java) - Classe da entidade Conta.
+- [**ContaCorrente.java**](/src/main/java/com/ficticio/bancoficticio/model/entity/ContaCorrente.java) - Classe da entidade ContaCorrente. Subclasse da classe Conta.
+- [**ContaPagamento.java**](/src/main/java/com/ficticio/bancoficticio/model/entity/ContaPagamento.java) - Classe da entidade ContaPagamento. Subclasse da classe Conta.
+- [**Transacao.java**](/src/main/java/com/ficticio/bancoficticio/model/entity/Transacao.java) - Classe da entidade Transacao.
+- [**ClienteRepository.java**](/src/main/java/com/ficticio/bancoficticio/repository/ClienteRepository.java) - Repositório de dados de instâncias da classe Cliente.
+- [**ContaRepository.java**](/src/main/java/com/ficticio/bancoficticio/repository/ContaRepository.java) - Repositório de dados de instâncias da classe Conta.
+- [**TransacaoRepository.java**](/src/main/java/com/ficticio/bancoficticio/repository/TransacaoRepository.java) - Repositório de dados de instâncias da classe Transacao.
+- [**ClienteService.java**](/src/main/java/com/ficticio/bancoficticio/service/ClienteService.java) - Implementação das regras de negócio relacionadas a entidade Cliente.
+- [**ContaService.java**](/src/main/java/com/ficticio/bancoficticio/service/ContaService.java) - Implementação das regras de negócio relacionadas a entidade Conta.
+- [**BancoFicticioApplication.java**](/src/main/java/com/ficticio/bancoficticio/BancoFicticioApplication.java) - Aplicação Spring Boot.
 
 ## Rotas da API
 
@@ -311,7 +351,10 @@ public Transacao(UUID idConta, String tipo, double quantia, UUID idContaDestino)
 
 #### [GET] /{idConta}/extrato
 
-- **Descrição**: Operação de verificação de extrato mensal. Requer no path param o id da conta que deseja verificar o extrato.
+- **Descrição**: Operação de verificação de extrato mensal. Requer no path param o id da conta que deseja verificar o extrato, e os query param de "mes" e "ano" que se deseja verificar o extrato.
+
+- **Exemplo de request com query param**:
+  `/conta/4cfdd0ef-3d00-4197-956c-c3afde664b61/extrato?mes=6&ano=2024`
 
 #### [PATCH] /{idConta}/deposito
 
@@ -412,35 +455,35 @@ public Transacao(UUID idConta, String tipo, double quantia, UUID idContaDestino)
 
 #### [GET] /depositos
 
-- **Descrição**: Operação de listar todos os depositos realizados pelo banco. Pode ser adicionado o query param com a id da conta para filtrar o resultado.
+- **Descrição**: Operação de listar todos os depósitos realizados. Pode ser adicionado o query param com a id da conta para filtrar o resultado.
 
 - **Exemplo de request com query param**:
   `/transacao/depositos?id=40b43186-93d9-4a1c-90de-382edc02e30b`
 
 #### [GET] /saques
 
-- **Descrição**: Operação de listar todos os saques realizados pelo banco. Pode ser adicionado o query param com a id da conta para filtrar o resultado.
+- **Descrição**: Operação de listar todos os saques realizados. Pode ser adicionado o query param com a id da conta para filtrar o resultado.
 
 - **Exemplo de request com query param**:
   `/transacao/saques?id=40b43186-93d9-4a1c-90de-382edc02e30b`
 
 #### [GET] /transferencias
 
-- **Descrição**: Operação de listar todas as transferências realizadas pelo banco. Pode ser adicionado o query param com a id da conta para filtrar o resultado.
+- **Descrição**: Operação de listar todas as transferências realizadas. Pode ser adicionado o query param com a id da conta para filtrar o resultado.
 
 - **Exemplo de request com query param**:
   `/transacao/transferencias?id=40b43186-93d9-4a1c-90de-382edc02e30b`
 
 #### [GET] /pagamentos
 
-- **Descrição**: Operação de listar todos os pagamentos realizados pelo banco. Pode ser adicionado o query param com a id da conta para filtrar o resultado.
+- **Descrição**: Operação de listar todos os pagamentos realizados. Pode ser adicionado o query param com a id da conta para filtrar o resultado.
 
 - **Exemplo de request com query param**:
   `/transacao/pagamentos?id=40b43186-93d9-4a1c-90de-382edc02e30b`
 
 #### [GET] /pix
 
-- **Descrição**: Operação de listar todos os pix realizados pelo banco. Pode ser adicionado o query param com a id da conta para filtrar o resultado.
+- **Descrição**: Operação de listar todos os pix realizados. Pode ser adicionado o query param com a id da conta para filtrar o resultado.
 
 - **Exemplo de request com query param**:
   `/transacao/pix?id=40b43186-93d9-4a1c-90de-382edc02e30b`
