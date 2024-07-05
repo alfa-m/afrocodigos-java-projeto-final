@@ -17,12 +17,6 @@ Projeto final do bootcamp Afrocódigos, realizado pela [Olabi](https://www.olabi
 
 ## Como testar
 
-### Testando a API online
-
-Para testar a API, acesse [aqui](http://ec2-44-202-244-96.compute-1.amazonaws.com:8080/swagger-ui/index.html#/).
-
-Talvez o servidor não esteja conectado no momento de acesso. Nesse caso, por favor, abra uma issue.
-
 ### Testando a API localmente
 
 Os passos necessários para testar localmente são:
